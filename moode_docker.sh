@@ -73,10 +73,10 @@ echo ""
 sudo docker volume create moode
 # sudo chown -R volumio /var/lib/docker/
 
-udo apt-get install qemu binfmt-support qemu-user-static # Install the qemu packages
-docker run --rm --privileged multiarch/qemu-user-static --reset -p yes # This step will execute the registering scripts
+sudo docker run --privileged --rm tonistiigi/binfmt --install all
+sudo docker run --rm --privileged multiarch/qemu-user-static --reset -p yes # This step will execute the registering scripts
 
-sudo docker create --name debian-moode --restart always -v /sys/fs/cgroup:/sys/fs/cgroup:ro -v moode:/mnt/NAS --device /dev/snd --net host --privileged -e LANG=C.UTF-8 --cap-add=NET_ADMIN --security-opt seccomp:unconfined --cpu-shares=10240 navikey/raspbian-bullseye /lib/systemd/systemd
+sudo docker create --name debian-moode --restart always -v /sys/fs/cgroup:/sys/fs/cgroup:ro --device=/dev/kvm --net host --privileged -e LANG=C.UTF-8 --cap-add=NET_ADMIN --security-opt seccomp:unconfined --platform linux/arm/v7 navikey/raspbian-bullseye /lib/systemd/systemd
 
 sudo docker container start debian-moode
 
