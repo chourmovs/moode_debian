@@ -3,61 +3,23 @@
 printf "\ec"
 echo ""
 echo "****************************************************"
-echo "*    Moode on tinkerboard Armv7l install script    *"
-echo "*             By chourmovs v 1.3                   *"
+echo "*    Moode on docker multiarch install script    *"
+echo "*             By chourmovs v 1.1                  *"
 echo "****************************************************"
 echo ""
 echo ""
 sleep 3
 
-if [ "$(uname -m)"  == "armv7l" ]
-  then
-	echo "Tinkerboard detected, This script will launch"
-  echo ""
-  else
-    echo "This script is for armv7l only, it will now exit"
-    exit 1
-fi
-
-sleep 3
-echo ""
-echo "**************************************"
-echo "*     install docker (host side)     *"
-echo "**************************************"
-echo ""
+#if [ "$(uname -m)"  == "armv7l" ]
+#  then
+#	echo "Tinkerboard detected, This script will launch"
+ # echo ""
+#  else
+#    echo "This script is for armv7l only, it will now exit"
+#    exit 1
+#fi
 
 
-sudo apt update -y
-sudo apt install -y apt-transport-https ca-certificates curl gnupg2 software-properties-common screen
-curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
-sudo add-apt-repository "deb [arch=armhf] https://download.docker.com/linux/debian $(lsb_release -cs) stable"
-sudo apt update -y
-sudo apt install -y docker-ce
-
-sleep 3
-echo ""
-echo "******************************************************************************"
-echo "*      Optional - Prepare Alsa just in case of external DAC (host side)      *"
-echo "******************************************************************************"
-echo ""
-echo "will comment the last line with #, it will modify the order of soundcard in ALSA to make it moode compatible"
-echo "like this:	#options snd-usb-audio index=1,5 vid=0x0bda pid=0x481a"
-echo ""
-
-while true; do
-read -p "Do you want to proceed? note: it will change primo's default card order (y/n) " yn
-case $yn in 
-	[yY] ) echo ok, we will proceed;
- 		sudo sed -i 's/option/#option/g' /etc/modprobe.d/alsa-base.conf;
-   		sudo sed -i 's/##option/#option/g' /etc/modprobe.d/alsa-base.conf;
-     		sudo systemctl restart alsa-state.service
-       		sudo systemctl restart sound.target
-   		break;;
-	[nN] ) echo exiting...;
-		break;;
-	* ) echo invalid response;;
-esac
-done
 	
 echo ""
 echo "*************************************************************************************"
@@ -87,19 +49,19 @@ echo "*   Optional - If you want Moode to get an exlusive access to vital servic
 echo "********************************************************************************************"
 echo ""
 
-while true; do
-read -p "Do you want to proceed? note: Playing from volumio won't be possible anymore but it allow radios and MPD control from moode (y/n) " yn
-case $yn in 
-	[yY] ) echo ok, we will proceed;
-        sudo systemctl stop mpd.service mpd.socket nfs-client.target smbd.service 
-	sudo systemctl disable mpd.service mpd.socket nfs-client.target smbd.service 
-	sudo systemctl mask mpd.service mpd.socket nfs-client.target smbd.service 
-		break;;
-	[nN] ) echo exiting...;
-		break;;
-	* ) echo invalid response;;
-esac
-done
+#while true; do
+#read -p "Do you want to proceed? note: Playing from volumio won't be possible anymore but it allow radios and MPD control from moode (y/n) " yn
+#case $yn in 
+#	[yY] ) echo ok, we will proceed;
+#        sudo systemctl stop mpd.service mpd.socket nfs-client.target smbd.service 
+#	sudo systemctl disable mpd.service mpd.socket nfs-client.target smbd.service 
+#	sudo systemctl mask mpd.service mpd.socket nfs-client.target smbd.service 
+#		break;;
+#	[nN] ) echo exiting...;
+#		break;;
+#	* ) echo invalid response;;
+#esac
+#done
 
 sleep 2
 echo ""
@@ -110,6 +72,9 @@ echo ""
 # sudo mkdir /home/moode && sudo chown volumio:volumio /home/moode && sudo chmod 777 /home/moode
 sudo docker volume create moode
 # sudo chown -R volumio /var/lib/docker/
+
+udo apt-get install qemu binfmt-support qemu-user-static # Install the qemu packages
+docker run --rm --privileged multiarch/qemu-user-static --reset -p yes # This step will execute the registering scripts
 
 sudo docker create --name debian-moode --restart always -v /sys/fs/cgroup:/sys/fs/cgroup:ro -v moode:/mnt/NAS --device /dev/snd --net host --privileged -e LANG=C.UTF-8 --cap-add=NET_ADMIN --security-opt seccomp:unconfined --cpu-shares=10240 navikey/raspbian-bullseye /lib/systemd/systemd
 
