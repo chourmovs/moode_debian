@@ -1,9 +1,6 @@
 # Moode_docker
 
 This bash script will allow you to setup a full fontionnal moode-player OS in a multicarch docker environment
-
-#### It will also detect and work on every armv7l machine running a "docker capable" linux.  
-
 All the process is automated 
 &nbsp;  &nbsp;  
 
@@ -30,8 +27,8 @@ All the process is automated
 # Installation
 
 in a ssh terminal lauch following command
-```
-bash <(curl -Ls )
+``` 
+bash <(curl -Ls https://raw.githubusercontent.com/chourmovs/moode_docker/main/moode_docker.sh)
 
 ```
 
