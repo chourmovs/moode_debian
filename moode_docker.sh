@@ -8,60 +8,6 @@ echo "*             By chourmovs v 1.1                  *"
 echo "****************************************************"
 echo ""
 echo ""
-sleep 3
-
-#if [ "$(uname -m)"  == "armv7l" ]
-#  then
-#	echo "Tinkerboard detected, This script will launch"
- # echo ""
-#  else
-#    echo "This script is for armv7l only, it will now exit"
-#    exit 1
-#fi
-
-
-	
-echo ""
-echo "*************************************************************************************"
-echo "*    Optional - If you want to use your device as bluetooth receiver (host side)    *"
-echo "*************************************************************************************"
-echo ""
-
-
-while true; do
-read -p "Do you want to proceed? note: Bluetooth will be available for moode but no more for volumio (y/n) " yn
-case $yn in 
-	[yY] ) echo ok, we will proceed;
-         sudo systemctl stop bluetooth.service;
-	 sudo systemctl disable bluetooth.service;
-  	 sudo systemctl mask bluetooth.service;
- 		break;;
-	[nN] ) echo exiting...;
-		break;;
-	* ) echo invalid response;;
-esac
-done
-
-
-echo ""
-echo "********************************************************************************************"
-echo "*   Optional - If you want Moode to get an exlusive access to vital service MPD,CIFS,NFS   *"
-echo "********************************************************************************************"
-echo ""
-
-#while true; do
-#read -p "Do you want to proceed? note: Playing from volumio won't be possible anymore but it allow radios and MPD control from moode (y/n) " yn
-#case $yn in 
-#	[yY] ) echo ok, we will proceed;
-#        sudo systemctl stop mpd.service mpd.socket nfs-client.target smbd.service 
-#	sudo systemctl disable mpd.service mpd.socket nfs-client.target smbd.service 
-#	sudo systemctl mask mpd.service mpd.socket nfs-client.target smbd.service 
-#		break;;
-#	[nN] ) echo exiting...;
-#		break;;
-#	* ) echo invalid response;;
-#esac
-#done
 
 sleep 2
 echo ""
@@ -70,24 +16,24 @@ echo "*    create container with systemd in priviledged mode and start it    *"
 echo "************************************************************************"
 echo ""
 # sudo mkdir /home/moode && sudo chown volumio:volumio /home/moode && sudo chmod 777 /home/moode
-sudo docker volume create moode
+# sudo docker volume create moode
 # sudo chown -R volumio /var/lib/docker/
 
-sudo docker run --privileged --rm tonistiigi/binfmt --install all
-sudo docker run --rm --privileged multiarch/qemu-user-static --reset -p yes # This step will execute the registering scripts
+docker run --privileged --rm tonistiigi/binfmt --install all
+docker run --rm --privileged multiarch/qemu-user-static --reset -p yes # This step will execute the registering scripts
 
-sudo docker create --name debian-moode --restart always -v /sys/fs/cgroup:/sys/fs/cgroup:ro --device=/dev/kvm --net host --privileged -e LANG=C.UTF-8 --cap-add=NET_ADMIN --security-opt seccomp:unconfined --platform linux/arm/v7 navikey/raspbian-bullseye /lib/systemd/systemd
+docker create --name debian-moode --restart always -v /sys/fs/cgroup:/sys/fs/cgroup:ro --device=/dev/kvm --net host --privileged -e LANG=C.UTF-8 --cap-add=NET_ADMIN --security-opt seccomp:unconfined --platform linux/arm/v7 navikey/raspbian-bullseye /lib/systemd/systemd
 
-sudo docker container start debian-moode
+docker container start debian-moode
 
 echo ""
 echo "*********************************************"
 echo "*    install moode player (container side)  *"
 echo "*********************************************"
 echo ""
-sudo docker exec -ti debian-moode /bin/bash -c "apt-get update -y ; sleep 3 ; apt-get upgrade -y"
-sudo docker exec -ti debian-moode /bin/bash -c "apt-get install -y curl sudo libxaw7 ssh libsndfile1 libsndfile1-dev cifs-utils nfs-common"
-sudo docker exec -ti debian-moode /bin/bash -c "apt --fix-broken install -y"
+docker exec -ti debian-moode /bin/bash -c "apt-get update -y ; sleep 3 ; apt-get upgrade -y"
+docker exec -ti debian-moode /bin/bash -c "apt-get install -y curl sudo libxaw7 ssh libsndfile1 libsndfile1-dev cifs-utils nfs-common"
+docker exec -ti debian-moode /bin/bash -c "apt --fix-broken install -y"
 
 echo ""
 echo ""
@@ -96,10 +42,10 @@ echo ""
 echo ""
 sleep 2
 
-sudo docker exec -ti debian-moode /bin/bash -c "sudo sed -i 's/#Port 22/Port 2222/g' /etc/ssh/sshd_config;"
-sudo docker exec -ti debian-moode /bin/bash -c "systemctl restart sshd"
-sudo docker exec -ti debian-moode /bin/bash -c "curl -1sLf  'https://dl.cloudsmith.io/public/moodeaudio/m8y/setup.deb.sh' | sudo -E distro=raspbian codename=bullseye arch=armv7hf bash -"
-sudo docker exec -ti debian-moode /bin/bash -c "apt-get update -y | apt-get install moode-player -y --fix-missing"
+docker exec -ti debian-moode /bin/bash -c "sudo sed -i 's/#Port 22/Port 2222/g' /etc/ssh/sshd_config;"
+docker exec -ti debian-moode /bin/bash -c "systemctl restart sshd"
+docker exec -ti debian-moode /bin/bash -c "curl -1sLf  'https://dl.cloudsmith.io/public/moodeaudio/m8y/setup.deb.sh' | sudo -E distro=raspbian codename=bullseye arch=armv7hf bash -"
+docker exec -ti debian-moode /bin/bash -c "apt-get update -y | apt-get install moode-player -y --fix-missing"
 echo ""
 echo ""
 echo "In general this long install return error, next move will try to fix this"
@@ -107,21 +53,21 @@ sleep 2
 echo ""
 
 
-sudo docker exec -ti debian-moode /bin/bash -c "apt --fix-broken install -y"
+docker exec -ti debian-moode /bin/bash -c "apt --fix-broken install -y"
 sleep 2
-sudo docker exec -ti debian-moode /bin/bash -c "apt-get install moode-player -y --fix-missing"
+docker exec -ti debian-moode /bin/bash -c "apt-get install moode-player -y --fix-missing"
 sleep 2
-sudo docker exec -ti debian-moode /bin/bash -c "apt upgrade -y"
+docker exec -ti debian-moode /bin/bash -c "apt upgrade -y"
 #sleep 2
-sudo docker exec -ti debian-moode /bin/bash -c "exit"       
+docker exec -ti debian-moode /bin/bash -c "exit"       
 
 echo ""
 echo "****************************************"
 echo "*    restart moode player (host side)  *"
 echo "****************************************"
 
-sudo docker container stop debian-moode
-sudo docker container start debian-moode
+docker container stop debian-moode
+docker container start debian-moode
 
 echo ""
 echo ""
@@ -133,8 +79,8 @@ echo "Will change moode http port to 8008 to avoid conflict with volumio front"
 echo ""
 echo ""
 sleep 2
-sudo docker exec -ti debian-moode /bin/bash -c "sudo sed -i 's/80 /8008 /g' /etc/nginx/sites-available/moode-http.conf"
-sudo docker exec -ti debian-moode /bin/bash -c "systemctl restart nginx"
+docker exec -ti debian-moode /bin/bash -c "sudo sed -i 's/80 /8008 /g' /etc/nginx/sites-available/moode-http.conf"
+docker exec -ti debian-moode /bin/bash -c "systemctl restart nginx"
 
 echo ""
 echo "****************************"
