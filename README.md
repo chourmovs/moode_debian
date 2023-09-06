@@ -1,4 +1,4 @@
-# Moode_tinkerboard
+# Moode_docker
 
 This bash script will allow you to setup a full fontionnal moode-player OS in a multicarch docker environment
 
