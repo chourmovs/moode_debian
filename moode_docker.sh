@@ -22,7 +22,7 @@ echo ""
 docker run --privileged --rm tonistiigi/binfmt --install all
 docker run --rm --privileged multiarch/qemu-user-static --reset -p yes # This step will execute the registering scripts
 
-docker create --name debian-moode --restart always -v /sys/fs/cgroup:/sys/fs/cgroup:ro --device=/dev/kvm --net host --privileged -e LANG=C.UTF-8 --cap-add=NET_ADMIN --security-opt seccomp:unconfined --platform linux/arm/v7 navikey/raspbian-bullseye /lib/systemd/systemd
+docker create --name debian-moode --restart always -v /sys/fs/cgroup:/sys/fs/cgroup:ro --device=/dev/kvm --net host --privileged -e LANG=C.UTF-8 --cap-add=NET_ADMIN --security-opt seccomp:unconfined --platform linux/arm64 navikey/raspbian-bullseye /lib/systemd/systemd
 
 docker container start debian-moode
 
@@ -44,7 +44,7 @@ sleep 2
 
 docker exec -ti debian-moode /bin/bash -c "sudo sed -i 's/#Port 22/Port 2222/g' /etc/ssh/sshd_config;"
 docker exec -ti debian-moode /bin/bash -c "systemctl restart sshd"
-docker exec -ti debian-moode /bin/bash -c "curl -1sLf  'https://dl.cloudsmith.io/public/moodeaudio/m8y/setup.deb.sh' | sudo -E distro=raspbian codename=bullseye arch=armv7hf bash -"
+docker exec -ti debian-moode /bin/bash -c "curl -1sLf  'https://dl.cloudsmith.io/public/moodeaudio/m8y/setup.deb.sh' | sudo -E distro=raspbian codename=bullseye arch=arm64 bash -"
 docker exec -ti debian-moode /bin/bash -c "apt-get update -y | apt-get install moode-player -y --fix-missing"
 echo ""
 echo ""
