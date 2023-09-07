@@ -18,7 +18,7 @@ docker volume create moode
 
 docker run --privileged --rm tonistiigi/binfmt --install linux/arm64
 docker run --rm --privileged multiarch/qemu-user-static --reset -p yes # This step will execute the registering scripts
-docker create --name debian-moode --restart always --cgroupns=host -v /sys/fs/cgroup:/sys/fs/cgroup:ro -v moode:/tmp:rw -v moode:/run:rw --device=/dev/kvm --net host --privileged -e LANG=C.UTF-8 --cap-add=NET_ADMIN --security-opt seccomp:unconfined --platform linux/arm64 robxme/raspbian-stretch /lib/systemd/systemd
+docker create --name debian-moode --restart always --cgroupns=host -v /sys/fs/cgroup:/sys/fs/cgroup:ro --tmpfs /tmp --tmpfs /run --device=/dev/kvm --net host --privileged -e LANG=C.UTF-8 --cap-add=NET_ADMIN --security-opt seccomp:unconfined --platform linux/arm64 robxme/raspbian-stretch /lib/systemd/systemd
 
 docker container start debian-moode
 
