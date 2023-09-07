@@ -25,7 +25,7 @@ echo "*    install moode player (container side)  *"
 echo "*********************************************"
 echo ""
 
-docker exec -ti debian-moode /bin/bash -c "apt-get update -y ; sleep 3 ; apt-get upgrade -y"
+docker exec -ti debian-moode /bin/bash -c "apt-get update -y  apt-get upgrade -y"
 docker exec -ti debian-moode /bin/bash -c "apt-get install -y curl sudo libxaw7 ssh libsndfile1 libsndfile1-dev cifs-utils nfs-common"
 docker exec -ti debian-moode /bin/bash -c "apt --fix-broken install -y"
 
