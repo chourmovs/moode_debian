@@ -12,11 +12,8 @@ echo "************************************************************************"
 echo "*    create container with systemd in priviledged mode and start it    *"
 echo "************************************************************************"
 echo ""
-# sudo mkdir /home/moode && sudo chown volumio:volumio /home/moode && sudo chmod 777 /home/moode
-# docker volume create moode
-# sudo chown -R volumio /var/lib/docker/
 
-docker run --privileged --rm tonistiigi/binfmt --install linux/arm/7
+docker run --privileged --rm tonistiigi/binfmt --install all
 docker run --rm --privileged multiarch/qemu-user-static --reset -p yes # This step will execute the registering scripts
 docker create --name debian-moode --restart always -v /sys/fs/cgroup:/sys/fs/cgroup:ro --net host --privileged -e LANG=C.UTF-8 --cap-add=NET_ADMIN --security-opt seccomp:unconfined navikey/raspbian-bullseye /lib/systemd/systemd
 
@@ -41,8 +38,8 @@ sleep 2
 
 #docker exec -ti debian-moode /bin/bash -c "sudo sed -i 's/#Port 22/Port 2222/g' /etc/ssh/sshd_config;"
 #docker exec -ti debian-moode /bin/bash -c "systemctl restart sshd"
-#docker exec -ti debian-moode /bin/bash -c "curl -1sLf  'https://dl.cloudsmith.io/public/moodeaudio/m8y/setup.deb.sh' | sudo -E distro=raspbian codename=bullseye bash -"
-#docker exec -ti debian-moode /bin/bash -c "apt-get update -y | apt-get install moode-player -y --fix-missing"
+docker exec -ti debian-moode /bin/bash -c "curl -1sLf  'https://dl.cloudsmith.io/public/moodeaudio/m8y/setup.deb.sh' | sudo -E distro=raspbian codename=bullseye bash -"
+docker exec -ti debian-moode /bin/bash -c "apt-get update -y | apt-get install moode-player -y --fix-missing"
 echo ""
 echo ""
 # echo "In general this long install return error, next move will try to fix this"
@@ -76,7 +73,7 @@ echo ""
 echo ""
 sleep 2
 docker exec -ti debian-moode /bin/bash -c "sudo sed -i 's/80 /8008 /g' /etc/nginx/sites-available/moode-http.conf"
-docker exec -ti debian-moode /bin/bash -c "systemctl restart nginx"
+docker exec -ti debian-moode /bin/bash -c "service restart nginx"
 
 echo ""
 echo "****************************"
