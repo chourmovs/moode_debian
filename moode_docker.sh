@@ -13,12 +13,12 @@ echo "*    create container with systemd in priviledged mode and start it    *"
 echo "************************************************************************"
 echo ""
 # sudo mkdir /home/moode && sudo chown volumio:volumio /home/moode && sudo chmod 777 /home/moode
-# sudo docker volume create moode
+sudo docker volume create moode
 # sudo chown -R volumio /var/lib/docker/
 
 docker run --privileged --rm tonistiigi/binfmt --install linux/arm64
 docker run --rm --privileged multiarch/qemu-user-static --reset -p yes # This step will execute the registering scripts
-docker create --name debian-moode --restart always --cgroupns=host -v /sys/fs/cgroup:/sys/fs/cgroup:ro --device=/dev/kvm --net host --privileged -e LANG=C.UTF-8 --cap-add=NET_ADMIN --security-opt seccomp:unconfined --platform linux/arm64 robxme/raspbian-stretch /lib/systemd/systemd
+docker create --name debian-moode --restart always --cgroupns=host -v /sys/fs/cgroup:/sys/fs/cgroup:ro -v moode:/tmp:rw -v moode:/run:rw --device=/dev/kvm --net host --privileged -e LANG=C.UTF-8 --cap-add=NET_ADMIN --security-opt seccomp:unconfined --platform linux/arm64 robxme/raspbian-stretch /lib/systemd/systemd
 
 docker container start debian-moode
 
