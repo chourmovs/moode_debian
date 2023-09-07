@@ -13,7 +13,7 @@ echo "*    create container with systemd in priviledged mode and start it    *"
 echo "************************************************************************"
 echo ""
 # sudo mkdir /home/moode && sudo chown volumio:volumio /home/moode && sudo chmod 777 /home/moode
-docker volume create moode
+# docker volume create moode
 # sudo chown -R volumio /var/lib/docker/
 
 docker run --privileged --rm tonistiigi/binfmt --install linux/arm64
