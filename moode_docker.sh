@@ -16,9 +16,9 @@ echo ""
 # docker volume create moode
 # sudo chown -R volumio /var/lib/docker/
 
-docker run --privileged --rm tonistiigi/binfmt --install linux/arm64
+docker run --privileged --rm tonistiigi/binfmt --install linux/arm/7
 docker run --rm --privileged multiarch/qemu-user-static --reset -p yes # This step will execute the registering scripts
-docker create --name debian-moode --restart always --cgroupns=host -v /sys/fs/cgroup:/sys/fs/cgroup:ro --tmpfs /tmp --tmpfs /run --device=/dev/kvm --net host --privileged -e LANG=C.UTF-8 --cap-add=NET_ADMIN --security-opt seccomp:unconfined --platform linux/arm64 robxme/raspbian-stretch /lib/systemd/systemd
+docker create --name debian-moode --restart always -v /sys/fs/cgroup:/sys/fs/cgroup:ro --net host --privileged -e LANG=C.UTF-8 --cap-add=NET_ADMIN --security-opt seccomp:unconfined navikey/raspbian-bullseye /lib/systemd/systemd
 
 docker container start debian-moode
 
@@ -27,8 +27,9 @@ echo "*********************************************"
 echo "*    install moode player (container side)  *"
 echo "*********************************************"
 echo ""
+
 docker exec -ti debian-moode /bin/bash -c "apt-get update -y ; sleep 3 ; apt-get upgrade -y"
-docker exec -ti debian-moode /bin/bash -c "apt-get install -y curl sudo libxaw7 ssh libsndfile1 libsndfile1-dev cifs-utils nfs-common"
+docker exec -ti debian-moode /bin/bash -c "apt-get install -y curl sudo libxaw7 ssh libsndfile1 libsndfile1-dev cifs-utils nfs-common httpd"
 docker exec -ti debian-moode /bin/bash -c "apt --fix-broken install -y"
 
 echo ""
@@ -38,14 +39,13 @@ echo ""
 echo ""
 sleep 2
 
-docker exec -ti debian-moode /bin/bash -c "sudo sed -i 's/#Port 22/Port 2222/g' /etc/ssh/sshd_config;"
-docker exec -ti debian-moode /bin/bash -c "systemctl restart sshd"
-docker exec -ti debian-moode /bin/bash -c "curl -1sLf  'https://dl.cloudsmith.io/public/moodeaudio/m8y/setup.deb.sh' | sudo -E distro=raspbian codename=bullseye bash -"
-docker exec -ti debian-moode /bin/bash -c "apt-get update -y | apt-get install moode-player -y --fix-missing"
+#docker exec -ti debian-moode /bin/bash -c "sudo sed -i 's/#Port 22/Port 2222/g' /etc/ssh/sshd_config;"
+#docker exec -ti debian-moode /bin/bash -c "systemctl restart sshd"
+#docker exec -ti debian-moode /bin/bash -c "curl -1sLf  'https://dl.cloudsmith.io/public/moodeaudio/m8y/setup.deb.sh' | sudo -E distro=raspbian codename=bullseye bash -"
+#docker exec -ti debian-moode /bin/bash -c "apt-get update -y | apt-get install moode-player -y --fix-missing"
 echo ""
 echo ""
-echo "In general this long install return error, next move will try to fix this"
-sleep 2
+# echo "In general this long install return error, next move will try to fix this"
 echo ""
 
 
