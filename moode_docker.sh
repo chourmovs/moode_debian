@@ -15,7 +15,7 @@ echo ""
 
 docker run --privileged --rm tonistiigi/binfmt --install all
 docker run --rm --privileged multiarch/qemu-user-static --reset -p yes # This step will execute the registering scripts
-docker create --name debian-moode --restart always -v /sys/fs/cgroup:/sys/fs/cgroup --cgroupns=host --tmpfs /tmp --tmpfs /run --tmpfs /run/lock --net host --privileged -e LANG=C.UTF-8 --cap-add=NET_ADMIN --security-opt seccomp:unconfined navikey/raspbian-bullseye /lib/systemd/systemd
+docker create --name debian-moode --restart always -v /sys/fs/cgroup:/sys/fs/cgroup --cgroupns=host --tmpfs /tmp --tmpfs /run --tmpfs /run/lock --net host --privileged -e LANG=C.UTF-8 --cap-add=NET_ADMIN --security-opt seccomp:unconfined navikey/raspbian-bullseye
 
 docker container start debian-moode
 
