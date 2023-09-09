@@ -48,7 +48,7 @@ echo "*********************************************"
 echo ""
 sleep 5
 
-docker exec -ti debian-moode /bin/bash -c "curl -1sLf  'https://dl.cloudsmith.io/public/moodeaudio/m8y/setup.deb.sh' ; sudo -E distro=raspbian codename=bullseye bash -"
+docker exec -ti debian-moode /bin/bash -c "curl -1sLf  'https://dl.cloudsmith.io/public/moodeaudio/m8y/setup.deb.sh' | sudo -E distro=raspbian codename=bullseye arch=armv7hf bash -"
 docker exec -ti debian-moode /bin/bash -c "apt-get update -y ; apt-get install moode-player -y --fix-missing"
 echo ""
 echo ""
