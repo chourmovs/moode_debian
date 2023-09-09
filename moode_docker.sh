@@ -21,9 +21,10 @@ docker container start debian-moode
 
 echo ""
 echo "*********************************************"
-echo "*    install moode player (container side)  *"
+echo "*        install vital dependecies          *"
 echo "*********************************************"
 echo ""
+sleep 5
 
 docker exec -ti debian-moode /bin/bash -c "apt-get update -y ; sleep 3 ; apt-get upgrade -y"
 docker exec -ti debian-moode /bin/bash -c "apt-get install -y curl sudo libxaw7 ssh libsndfile1 libsndfile1-dev cifs-utils nfs-common"
@@ -38,6 +39,15 @@ sleep 2
 
 docker exec -ti debian-moode /bin/bash -c "sudo sed -i 's/#Port 22/Port 2222/g' /etc/ssh/sshd_config;"
 docker exec -ti debian-moode /bin/bash -c "systemctl restart sshd"
+
+
+echo ""
+echo "*********************************************"
+echo "*        install moode player               *"
+echo "*********************************************"
+echo ""
+sleep 5
+
 docker exec -ti debian-moode /bin/bash -c "curl -1sLf  'https://dl.cloudsmith.io/public/moodeaudio/m8y/setup.deb.sh' ; sudo -E distro=raspbian codename=bullseye bash -"
 docker exec -ti debian-moode /bin/bash -c "apt-get update -y ; apt-get install moode-player -y --fix-missing"
 echo ""
