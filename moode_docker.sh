@@ -47,8 +47,8 @@ echo "************************************************************************"
 echo "*    create container with systemd in priviledged mode and start it    *"
 echo "************************************************************************"
 echo ""
-
-docker create --name debian-moode --restart always -v /sys/fs/cgroup:/sys/fs/cgroup --cgroupns=host --tmpfs /tmp --tmpfs /run --tmpfs /run/lock --net host --privileged -e LANG=C.UTF-8 --cap-add=NET_ADMIN --security-opt seccomp:unconfined navikey/raspbian-bullseye /lib/systemd/systemd
+docker volume create moode
+docker create --name debian-moode --restart always -v /sys/fs/cgroup:/sys/fs/cgroup -v moode:/mnt/NAS --cgroupns=host --tmpfs /tmp --tmpfs /run --tmpfs /run/lock --net host --privileged -e LANG=C.UTF-8 --cap-add=NET_ADMIN --security-opt seccomp:unconfined navikey/raspbian-bullseye /lib/systemd/systemd
 docker container start debian-moode
 
 echo ""
