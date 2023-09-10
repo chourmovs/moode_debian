@@ -125,7 +125,7 @@ echo ""
 echo "Your device will now restart"
 echo ""
 echo ""
-echo "CTRL+CLIC on http://volumio:8008"
+echo "CTRL+CLIC on http://yourserverip:8008"
 echo ""
 echo "Enjoy"
 # sudo reboot
