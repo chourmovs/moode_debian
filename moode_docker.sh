@@ -6,6 +6,41 @@ echo "****************************************************"
 echo "*    Moode on docker multiarch install script    *"
 echo "*             By chourmovs v 1.1                  *"
 echo "****************************************************"
+
+
+echo ""
+echo "*********************************************"
+echo "*        install multiarch qemu layers      *"
+echo "*********************************************"
+echo ""
+sleep 3
+
+docker run --privileged --rm tonistiigi/binfmt --install all
+docker run --rm --privileged multiarch/qemu-user-static --reset -p yes # This step will execute the registering scripts
+
+echo ""
+echo "********************************************************************************************"
+echo "*   Optional - If you want Moode to get an exlusive access to vital service MPD,CIFS,NFS   *"
+echo "********************************************************************************************"
+echo ""
+
+#while true; do
+#read -p "Do you want to proceed? note: Playing from volumio won't be possible anymore but it allow radios and MPD control from moode (y/n) " yn
+#case $yn in 
+#	[yY] ) echo ok, we will proceed;
+  sudo systemctl stop mpd.service mpd.socket nfs-client.target smbd.service 
+	sudo systemctl disable mpd.service mpd.socket nfs-client.target smbd.service 
+	sudo systemctl mask mpd.service mpd.socket nfs-client.target smbd.service 
+#		break;;
+#	[nN] ) echo exiting...;
+#		break;;
+#	* ) echo invalid response;;
+#esac
+#done
+
+
+
+
 echo ""
 echo ""
 echo "************************************************************************"
@@ -13,8 +48,6 @@ echo "*    create container with systemd in priviledged mode and start it    *"
 echo "************************************************************************"
 echo ""
 
-docker run --privileged --rm tonistiigi/binfmt --install all
-docker run --rm --privileged multiarch/qemu-user-static --reset -p yes # This step will execute the registering scripts
 docker create --name debian-moode --restart always -v /sys/fs/cgroup:/sys/fs/cgroup --cgroupns=host --tmpfs /tmp --tmpfs /run --tmpfs /run/lock --net host --privileged -e LANG=C.UTF-8 --cap-add=NET_ADMIN --security-opt seccomp:unconfined navikey/raspbian-bullseye /lib/systemd/systemd
 docker container start debian-moode
 
@@ -23,7 +56,7 @@ echo "*********************************************"
 echo "*        install vital dependecies          *"
 echo "*********************************************"
 echo ""
-sleep 5
+sleep 3
 
 docker exec -ti debian-moode /bin/bash -c "apt-get update -y ; sleep 3 ; apt-get upgrade -y"
 docker exec -ti debian-moode /bin/bash -c "apt-get install -y curl sudo libxaw7 ssh libsndfile1 libsndfile1-dev cifs-utils nfs-common"
@@ -31,7 +64,7 @@ docker exec -ti debian-moode /bin/bash -c "apt --fix-broken install -y"
 
 echo ""
 echo ""
-echo "Willchange ssh port to 2222 to fix openssh"
+echo "Will change ssh port to 2222 to fix openssh"
 echo ""
 echo ""
 sleep 2
