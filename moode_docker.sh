@@ -6,8 +6,8 @@ echo "****************************************************"
 echo "*    Moode on docker multiarch install script    *"
 echo "*             By chourmovs v 1.1                  *"
 echo "****************************************************"
-
-
+echo ""
+echo ""
 echo ""
 echo "*********************************************"
 echo "*        install multiarch qemu layers      *"
