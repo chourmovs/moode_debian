@@ -19,9 +19,13 @@ docker run --privileged --rm tonistiigi/binfmt --install all
 docker run --rm --privileged multiarch/qemu-user-static --reset -p yes # This step will execute the registering scripts
 
 echo ""
+echo ""
+echo ""
 echo "********************************************************************************************"
 echo "*   Optional - If you want Moode to get an exlusive access to vital service MPD,CIFS,NFS   *"
 echo "********************************************************************************************"
+echo ""
+echo ""
 echo ""
 
 #while true; do
@@ -90,11 +94,23 @@ echo ""
 
 docker exec -ti debian-moode /bin/bash -c "apt --fix-broken install -y"
 sleep 2
+echo ""
+echo ""
+echo ""
 docker exec -ti debian-moode /bin/bash -c "apt-get install moode-player -y --fix-missing"
 sleep 2
+echo ""
+echo ""
+echo ""
 docker exec -ti debian-moode /bin/bash -c "apt upgrade -y"
 #sleep 2
+echo ""
+echo ""
+echo ""
 docker exec -ti debian-moode /bin/bash -c "exit"       
+echo ""
+echo ""
+echo ""
 
 echo ""
 echo "****************************************"
