@@ -65,7 +65,7 @@ echo "*    create container with systemd in priviledged mode and start it    *"
 echo "************************************************************************"
 echo ""
 podman volume create moode
-podman create --name debian-moode --restart always -v /sys/fs/cgroup:/sys/fs/cgroup -v moode:/mnt/NAS --cgroupns=host --tmpfs /tmp --tmpfs /run --tmpfs /run/lock --net host --privileged -e LANG=C.UTF-8 --cap-add=NET_ADMIN --security-opt seccomp:unconfined navikey/raspbian-bullseye /lib/systemd/systemd
+podman create --name debian-moode --restart always -v moode:/mnt/NAS --net host --privileged -e LANG=C.UTF-8 navikey/raspbian-bullseye /lib/systemd/systemd
 podman container start debian-moode
 
 echo ""
