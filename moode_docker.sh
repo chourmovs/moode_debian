@@ -7,16 +7,17 @@ echo "*    Moode on docker multiarch install script    *"
 echo "*             By chourmovs v 1.1                  *"
 echo "****************************************************"
 echo ""
-
+echo ""
+echo ""
+echo ""
 echo "*********************************************"
 echo "*              Activate Podman              *"
 echo "*********************************************"
-
+echo ""
 podman machine init
 podman machine set --rootful
 podman machine start
-
-
+echo ""
 echo ""
 echo ""
 echo "*********************************************"
@@ -100,10 +101,11 @@ podman exec -ti debian-moode /bin/bash -c "curl -1sLf  'https://dl.cloudsmith.io
 podman exec -ti debian-moode /bin/bash -c "apt-get update -y ; apt-get install moode-player -y --fix-missing"
 echo ""
 echo ""
-# echo "In general this long install return error, next move will try to fix this"
 echo ""
-
-
+ echo "In general this long install return error, next move will try to fix this"
+echo ""
+echo ""
+echo ""
 podman exec -ti debian-moode /bin/bash -c "apt --fix-broken install -y"
 sleep 2
 echo ""
@@ -123,7 +125,7 @@ podman exec -ti debian-moode /bin/bash -c "exit"
 echo ""
 echo ""
 echo ""
-
+echo ""
 echo ""
 echo "****************************************"
 echo "*    restart moode player (host side)  *"
