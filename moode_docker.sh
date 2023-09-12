@@ -41,22 +41,6 @@ echo ""
 echo ""
 echo ""
 
-#while true; do
-#read -p "Do you want to proceed? note: Playing from volumio won't be possible anymore but it allow radios and MPD control from moode (y/n) " yn
-#case $yn in 
-#	[yY] ) echo ok, we will proceed;
-#  sudo systemctl stop mpd.service mpd.socket nfs-client.target smbd.service 
-#	sudo systemctl disable mpd.service mpd.socket nfs-client.target smbd.service 
-#	sudo systemctl mask mpd.service mpd.socket nfs-client.target smbd.service 
-#		break;;
-#	[nN] ) echo exiting...;
-#		break;;
-#	* ) echo invalid response;;
-#esac
-#done
-
-
-
 
 echo ""
 echo ""
@@ -79,7 +63,7 @@ echo ""
 sleep 3
 
 podman exec -ti debian-moode /bin/bash -c "apt-get update -y ; sleep 3 ; apt-get upgrade -y"
-podman exec -ti debian-moode /bin/bash -c "apt-get install -y curl sudo libxaw7 ssh libsndfile1 libsndfile1-dev cifs-utils nfs-common"
+podman exec -ti debian-moode /bin/bash -c "apt-get install -y curl sudo libxaw7 ssh libsndfile1 libsndfile1-dev cifs-utils udisk"
 podman exec -ti debian-moode /bin/bash -c "apt --fix-broken install -y"
 
 echo ""
