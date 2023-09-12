@@ -29,8 +29,8 @@ sleep 3
 
 
 
-podman run --privileged --rm tonistiigi/binfmt --install all
-podman run --rm --privileged multiarch/qemu-user-static --reset -p yes # This step will execute the registering scripts
+#podman run --privileged --rm tonistiigi/binfmt --install all
+#podman run --rm --privileged multiarch/qemu-user-static --reset -p yes # This step will execute the registering scripts
 
 echo ""
 echo ""
