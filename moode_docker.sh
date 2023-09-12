@@ -63,7 +63,7 @@ echo ""
 sleep 3
 
 podman exec -ti debian-moode /bin/bash -c "apt-get update -y ; sleep 3 ; apt-get upgrade -y"
-podman exec -ti debian-moode /bin/bash -c "apt-get install -y curl sudo libxaw7 ssh libsndfile1 libsndfile1-dev cifs-utils udisk"
+podman exec -ti debian-moode /bin/bash -c "apt-get install -y curl sudo libxaw7 ssh libsndfile1 libsndfile1-dev cifs-utils"
 podman exec -ti debian-moode /bin/bash -c "apt --fix-broken install -y"
 echo ""
 echo ""
@@ -88,7 +88,14 @@ echo ""
 sleep 5
 
 podman exec -ti debian-moode /bin/bash -c "curl -1sLf  'https://dl.cloudsmith.io/public/moodeaudio/m8y/setup.deb.sh' | sudo -E distro=raspbian codename=bullseye arch=armv7hf bash -"
-podman exec -ti debian-moode /bin/bash -c "apt-get update -y ; apt-get install moode-player -y --fix-missing"
+podman exec -ti debian-moode /bin/bash -c "apt-get update -y"
+podman exec -ti debian-moode /bin/bash -c "apt-get install udisks nginx"
+
+echo ""
+echo ""
+read -p "Press any key to continue... " -n1 -s
+
+podman exec -ti debian-moode /bin/bash -c "apt-get install moode-player -y --fix-missing"
 echo ""
 echo ""
 echo ""
