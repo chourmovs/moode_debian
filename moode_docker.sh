@@ -10,9 +10,9 @@ echo ""
 echo ""
 echo ""
 echo ""
-echo "*********************************************"
-echo "*              Activate Podman              *"
-echo "*********************************************"
+echo "****************************************************"
+echo "*                 Activate Podman                  *"
+echo "****************************************************"
 echo ""
 podman machine init
 podman machine set --rootful
@@ -20,13 +20,11 @@ podman machine start
 echo ""
 echo ""
 echo ""
-echo "*********************************************"
-echo "*        install multiarch qemu layers      *"
-echo "*********************************************"
+echo "****************************************************"
+echo "*            install multiarch qemu layers         *"
+echo "****************************************************"
 echo ""
 sleep 3
-
-
 
 #podman run --privileged --rm tonistiigi/binfmt --install all
 podman run --rm --privileged multiarch/qemu-user-static --reset -p yes # This step will execute the registering scripts
@@ -40,8 +38,6 @@ echo "**************************************************************************
 echo ""
 echo ""
 echo ""
-
-
 echo ""
 echo ""
 echo "************************************************************************"
@@ -74,7 +70,7 @@ echo ""
 echo "Will change ssh port to 2222 to fix openssh"
 echo ""
 echo ""
-sleep 2
+sleep 1
 
 podman exec -ti debian-moode /bin/bash -c "sudo sed -i 's/#Port 22/Port 2222/g' /etc/ssh/sshd_config;"
 podman exec -ti debian-moode /bin/bash -c "systemctl restart sshd"
@@ -85,7 +81,7 @@ echo "*********************************************"
 echo "*        install moode player               *"
 echo "*********************************************"
 echo ""
-sleep 5
+sleep 1
 
 podman exec -ti debian-moode /bin/bash -c "curl -1sLf  'https://dl.cloudsmith.io/public/moodeaudio/m8y/setup.deb.sh' | sudo -E distro=raspbian codename=bullseye arch=armv7hf bash -"
 podman exec -ti debian-moode /bin/bash -c "apt-get update -y"
@@ -105,24 +101,23 @@ echo ""
 echo ""
 echo ""
 podman exec -ti debian-moode /bin/bash -c "apt --fix-broken install -y"
-sleep 2
+sleep 1
 echo ""
 echo ""
 echo ""
 podman exec -ti debian-moode /bin/bash -c "apt-get install moode-player -y --fix-missing"
-sleep 2
+sleep 1
 echo ""
 echo ""
 echo ""
 podman exec -ti debian-moode /bin/bash -c "apt upgrade -y"
-#sleep 2
+#sleep 1
 echo ""
 echo ""
 echo ""
 podman exec -ti debian-moode /bin/bash -c "exit"       
 echo ""
-echo ""
-echo ""
+
 echo ""
 echo ""
 echo "****************************************"
@@ -141,7 +136,7 @@ echo ""
 echo "Will change moode http port to 8008 to avoid conflict with volumio front"
 echo ""
 echo ""
-sleep 2
+sleep 1
 podman exec -ti debian-moode /bin/bash -c "sudo sed -i 's/80 /8008 /g' /etc/nginx/sites-available/moode-http.conf"
 podman exec -ti debian-moode /bin/bash -c "systemctl start my-service@* --all"
 podman exec -ti debian-moode /bin/bash -c "systemctl restart nginx"
@@ -150,6 +145,7 @@ echo ""
 echo "****************************"
 echo "*    Access Moode web UI   *"
 echo "****************************"
+echo ""
 echo ""
 echo "Your device will now restart"
 echo ""
