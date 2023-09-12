@@ -68,6 +68,8 @@ podman volume create moode
 podman create --name debian-moode --restart always -v moode:/mnt/NAS -d macvlan --gateway=192.168.1.1 navikey/raspbian-bullseye /lib/systemd/systemd
 podman container start debian-moode
 podman exec -ti debian-moode /bin/bash -c "ip addr show"
+sleep 5
+
 echo ""
 echo "*********************************************"
 echo "*        install vital dependecies          *"
