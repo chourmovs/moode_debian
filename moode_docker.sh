@@ -16,7 +16,7 @@ echo "*********************************************"
 echo ""
 podman machine init
 podman machine stop
-podman machine set --rootless
+podman machine set --rootful=false
 podman machine start
 echo ""
 echo ""
