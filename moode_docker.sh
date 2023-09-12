@@ -65,7 +65,7 @@ echo "*    create container with systemd in priviledged mode and start it    *"
 echo "************************************************************************"
 echo ""
 podman volume create moode
-docker network create -d macvlan --gateway=192.168.1.1 unifinet
+podman network create -d macvlan --gateway=192.168.1.1 unifinet
 podman create --name debian-moode --net unifinet --ip 192.168.1.77 --restart always -v moode:/mnt/NAS navikey/raspbian-bullseye /lib/systemd/systemd
 podman container start debian-moode
 podman exec -ti debian-moode /bin/bash -c "ip addr show"
