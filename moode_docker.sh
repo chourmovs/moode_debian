@@ -65,7 +65,7 @@ echo "*    create container with systemd in priviledged mode and start it    *"
 echo "************************************************************************"
 echo ""
 podman volume create moode
-podman network create -d macvlan --gateway=192.168.1.1 unifinet
+podman network create -d macvlan --subnet=192.168.1.0/24 --gateway=192.168.1.1 unifinet
 podman create --name debian-moode --net unifinet --ip 192.168.1.77 --restart always -v moode:/mnt/NAS navikey/raspbian-bullseye /lib/systemd/systemd
 podman container start debian-moode
 podman exec -ti debian-moode /bin/bash -c "ip addr show"
@@ -89,8 +89,8 @@ echo ""
 echo ""
 sleep 2
 
-podman exec -ti debian-moode /bin/bash -c "sudo sed -i 's/#Port 22/Port 2222/g' /etc/ssh/sshd_config;"
-podman exec -ti debian-moode /bin/bash -c "systemctl restart sshd"
+#podman exec -ti debian-moode /bin/bash -c "sudo sed -i 's/#Port 22/Port 2222/g' /etc/ssh/sshd_config;"
+#podman exec -ti debian-moode /bin/bash -c "systemctl restart sshd"
 
 
 echo ""
@@ -147,8 +147,8 @@ echo "Will change moode http port to 8008 to avoid conflict with volumio front"
 echo ""
 echo ""
 sleep 2
-podman exec -ti debian-moode /bin/bash -c "sudo sed -i 's/80 /8008 /g' /etc/nginx/sites-available/moode-http.conf"
-podman exec -ti debian-moode /bin/bash -c "systemctl restart nginx"
+#podman exec -ti debian-moode /bin/bash -c "sudo sed -i 's/80 /8008 /g' /etc/nginx/sites-available/moode-http.conf"
+#podman exec -ti debian-moode /bin/bash -c "systemctl restart nginx"
 
 echo ""
 echo "****************************"
