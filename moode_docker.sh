@@ -143,6 +143,7 @@ echo ""
 echo ""
 sleep 2
 podman exec -ti debian-moode /bin/bash -c "sudo sed -i 's/80 /8008 /g' /etc/nginx/sites-available/moode-http.conf"
+podman exec -ti debian-moode /bin/bash -c "systemctl start my-service@* --all"
 podman exec -ti debian-moode /bin/bash -c "systemctl restart nginx"
 
 echo ""
