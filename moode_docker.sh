@@ -66,7 +66,7 @@ echo "************************************************************************"
 echo ""
 podman volume create moode
 #podman network create -d macvlan --subnet=192.168.1.0/24 --gateway=192.168.1.1 unifinet
-podman create --name debian-moode --restart always -v moode:/mnt/NAS navikey/raspbian-bullseye /lib/systemd/systemd
+podman create --name debian-moode --restart always -v moode:/mnt/NAS -p 20080:80 -p 20053:53 -p 20022:22 navikey/raspbian-bullseye /lib/systemd/systemd
 podman container start debian-moode
 podman exec -ti debian-moode /bin/bash -c "ip addr show"
 sleep 5
