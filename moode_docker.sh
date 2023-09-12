@@ -15,8 +15,7 @@ echo "*              Activate Podman              *"
 echo "*********************************************"
 echo ""
 podman machine init
-podman machine stop
-podman machine set --rootful=true
+podman machine set --rootful
 podman machine start
 echo ""
 echo ""
