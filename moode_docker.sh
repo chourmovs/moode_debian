@@ -65,8 +65,7 @@ echo "*    create container with systemd in priviledged mode and start it    *"
 echo "************************************************************************"
 echo ""
 podman volume create moode
-#podman network create -d macvlan --subnet=192.168.1.0/24 --gateway=192.168.1.1 unifinet
-podman create --name debian-moode --restart always -v moode:/mnt/NAS -p 20080:80 -p 20053:53 -p 20022:22 navikey/raspbian-bullseye /lib/systemd/systemd
+podman create --name debian-moode --restart always -v moode:/mnt/NAS --network=host navikey/raspbian-bullseye /lib/systemd/systemd
 podman container start debian-moode
 podman exec -ti debian-moode /bin/bash -c "ip addr show"
 sleep 5
@@ -89,8 +88,8 @@ echo ""
 echo ""
 sleep 2
 
-#podman exec -ti debian-moode /bin/bash -c "sudo sed -i 's/#Port 22/Port 2222/g' /etc/ssh/sshd_config;"
-#podman exec -ti debian-moode /bin/bash -c "systemctl restart sshd"
+podman exec -ti debian-moode /bin/bash -c "sudo sed -i 's/#Port 22/Port 2222/g' /etc/ssh/sshd_config;"
+podman exec -ti debian-moode /bin/bash -c "systemctl restart sshd"
 
 
 echo ""
@@ -105,7 +104,7 @@ podman exec -ti debian-moode /bin/bash -c "apt-get update -y ; apt-get install m
 echo ""
 echo ""
 echo ""
- echo "In general this long install return error, next move will try to fix this"
+echo "In general this long install return error, next move will try to fix this"
 echo ""
 echo ""
 echo ""
@@ -147,8 +146,8 @@ echo "Will change moode http port to 8008 to avoid conflict with volumio front"
 echo ""
 echo ""
 sleep 2
-#podman exec -ti debian-moode /bin/bash -c "sudo sed -i 's/80 /8008 /g' /etc/nginx/sites-available/moode-http.conf"
-#podman exec -ti debian-moode /bin/bash -c "systemctl restart nginx"
+podman exec -ti debian-moode /bin/bash -c "sudo sed -i 's/80 /8008 /g' /etc/nginx/sites-available/moode-http.conf"
+podman exec -ti debian-moode /bin/bash -c "systemctl restart nginx"
 
 echo ""
 echo "****************************"
