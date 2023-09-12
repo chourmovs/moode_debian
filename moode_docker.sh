@@ -66,7 +66,7 @@ echo "*    create container with systemd in priviledged mode and start it    *"
 echo "************************************************************************"
 echo ""
 echo ""
-podman create --name debian-moode --restart always -v /mnt/moode:/mnt/NAS:rw -v /mnt/moode/sys:/sys:rw --network=host navikey/raspbian-bullseye /lib/systemd/systemd
+podman create --name debian-moode --restart always -v C:\mnt\moode:/mnt/NAS:rw -v C:\mnt\moode\sys:/sys:rw --network=host navikey/raspbian-bullseye /lib/systemd/systemd
 podman container start debian-moode
 podman exec -ti debian-moode /bin/bash -c "ip addr show"
 sleep 5
