@@ -49,7 +49,7 @@ echo "*    create container with systemd in priviledged mode and start it    *"
 echo "************************************************************************"
 echo ""
 echo ""
-podman create --name debian-moode --restart always -v "C:\moode":/mnt/NAS:rw -v "C:\moode\sys":/sys:rw --network=host --security-opt seccomp:unconfined --privileged navikey/raspbian-bullseye /lib/systemd/systemd
+podman create --name debian-moode --restart always -v /sys/fs/cgroup:/sys/fs/cgroup:ro --network=host --security-opt seccomp:unconfined --privileged navikey/raspbian-bullseye /lib/systemd/systemd
 podman container start debian-moode
 sleep 5
 # podman exec -ti debian-moode /bin/bash -c "ip addr show"
@@ -65,6 +65,9 @@ sleep 3
 podman exec -ti debian-moode /bin/bash -c "apt-get update -y ; sleep 3 ; apt-get upgrade -y"
 podman exec -ti debian-moode /bin/bash -c "apt-get install -y curl sudo libxaw7 ssh libsndfile1 libsndfile1-dev cifs-utils udisk"
 podman exec -ti debian-moode /bin/bash -c "apt --fix-broken install -y"
+echo ""
+echo ""
+read -p "Press any key to continue... " -n1 -s
 
 echo ""
 echo ""
