@@ -15,8 +15,9 @@ echo "*                 Activate Podman                  *"
 echo "****************************************************"
 echo ""
 # podman machine init
-# podman machine set --rootful
-# podman machine start
+podman machine stop
+podman machine set --rootful
+podman machine start
 echo ""
 echo ""
 echo ""
@@ -26,7 +27,7 @@ echo "****************************************************"
 echo ""
 sleep 3
 
-#podman run --privileged --rm tonistiigi/binfmt --install all
+podman run --privileged --rm tonistiigi/binfmt --install all
 podman run --rm --privileged multiarch/qemu-user-static --reset -p yes # This step will execute the registering scripts
 
 echo ""
