@@ -65,7 +65,7 @@ sudo podman exec -ti debian-moode /bin/bash -c "apt-get install -y curl sudo lib
 sudo podman exec -ti debian-moode /bin/bash -c "apt --fix-broken install -y"
 echo ""
 echo ""
-read -p "Press any key to continue... " -n1 -s
+# read -p "Press any key to continue... " -n1 -s
 
 echo ""
 echo ""
@@ -92,7 +92,7 @@ sudo podman exec -ti debian-moode /bin/bash -c "apt-get install udisks nginx tri
 sudo podman exec -ti debian-moode /bin/bash -c "systemctl start my-service@* --all"
 echo ""
 echo ""
-read -p "Press any key to continue... " -n1 -s
+#read -p "Press any key to continue... " -n1 -s
 
 sudo podman exec -ti debian-moode /bin/bash -c "apt-get install moode-player -y --fix-missing"
 echo ""
