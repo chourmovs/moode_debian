@@ -14,9 +14,9 @@ echo "****************************************************"
 echo "*                 Activate Podman                  *"
 echo "****************************************************"
 echo ""
-podman machine init
-podman machine set --rootful
-podman machine start
+# podman machine init
+# podman machine set --rootful
+# podman machine start
 echo ""
 echo ""
 echo ""
@@ -45,7 +45,7 @@ echo "*    create container with systemd in priviledged mode and start it    *"
 echo "************************************************************************"
 echo ""
 echo ""
-podman create --name debian-moode --restart always -v /sys/fs/cgroup:/sys/fs/cgroup:ro --network=host --add-host=host.wsl.internal:$(hostname -i | cut -f 1 -d " ") --security-opt seccomp:unconfined --privileged navikey/raspbian-bullseye /lib/systemd/systemd
+podman create --name debian-moode --restart always --network=host --security-opt seccomp:unconfined --privileged navikey/raspbian-bullseye /lib/systemd/systemd
 podman container start debian-moode
 sleep 5
 # podman exec -ti debian-moode /bin/bash -c "ip addr show"
