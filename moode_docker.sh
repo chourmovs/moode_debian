@@ -14,10 +14,10 @@ echo "****************************************************"
 echo "*                 Activate Podman                  *"
 echo "****************************************************"
 echo ""
-sudo podman machine init
-sudo podman machine stop
-sudo podman machine set --rootful
-sudo podman machine start
+podman machine init
+podman machine stop
+podman machine set --rootful
+podman machine start
 echo ""
 echo ""
 echo ""
@@ -38,6 +38,7 @@ echo "*   Optional - If you want Moode to get an exlusive access to vital servic
 echo "********************************************************************************************"
 echo ""
 echo ""
+sudo apt remove dnsmasq -y
 echo ""
 echo ""
 echo ""
@@ -87,7 +88,7 @@ sleep 1
 sudo podman exec -ti debian-moode /bin/bash -c "curl -1sLf  'https://dl.cloudsmith.io/public/moodeaudio/m8y/setup.deb.sh' | sudo -E distro=raspbian codename=bullseye arch=armv7hf bash -"
 sudo podman exec -ti debian-moode /bin/bash -c "apt-get update -y"
 sudo podman exec -ti debian-moode /bin/bash -c "systemctl start my-service@* --all"
-sudo podman exec -ti debian-moode /bin/bash -c "apt-get install udisks nginx triggerhappy samba dnsmasq"
+sudo podman exec -ti debian-moode /bin/bash -c "apt-get install udisks nginx triggerhappy samba dnsmasq -y"
 sudo podman exec -ti debian-moode /bin/bash -c "systemctl start my-service@* --all"
 echo ""
 echo ""
