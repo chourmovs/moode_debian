@@ -38,7 +38,7 @@ echo "*   Optional - If you want Moode to get an exlusive access to vital servic
 echo "********************************************************************************************"
 echo ""
 echo ""
-sudo apt remove dnsmasq -y
+sudo apt remove dnsmasq* -y
 echo ""
 echo ""
 echo ""
