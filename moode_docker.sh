@@ -15,7 +15,7 @@ echo "*           Install Docker if necessary            *"
 echo "****************************************************"
 echo ""
 sudo apt update -y
-sudo apt install apt-transport-https ca-certificates curl software-properties-common
+sudo apt install -y apt-transport-https ca-certificates curl software-properties-common
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
 echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 sudo apt update -y
@@ -28,7 +28,7 @@ echo "****************************************************"
 echo "*            install multiarch qemu layers         *"
 echo "****************************************************"
 echo ""
-sleep 1
+sleep 5
 
 sudo docker run --privileged --rm tonistiigi/binfmt --install all
 sudo docker run --rm --privileged multiarch/qemu-user-static --reset -p yes # This step will execute the registering scripts
@@ -41,7 +41,6 @@ echo "*   Optional - If you want Moode to get an exlusive access to vital servic
 echo "********************************************************************************************"
 echo ""
 echo ""
-sudo apt remove dnsmasq* -y
 echo ""
 echo ""
 echo ""
@@ -49,6 +48,7 @@ echo "************************************************************************"
 echo "*    create container with systemd in priviledged mode and start it    *"
 echo "************************************************************************"
 echo ""
+
 sudo docker volume create moode
 
 sudo docker create --name debian-moode --restart always -v /sys/fs/cgroup:/sys/fs/cgroup:ro -v moode:/mnt/NAS --device /dev/snd --net host --privileged -e LANG=C.UTF-8 --cap-add=NET_ADMIN --security-opt seccomp:unconfined --cpu-shares=10240 navikey/raspbian-bullseye /lib/systemd/systemd
@@ -64,8 +64,8 @@ echo ""
 echo ""
 
 
-sudo docker exec -ti debian-moode /bin/bash -c "apt-get update -y ; sleep 3 ; apt-get upgrade -y"
-sudo docker exec -ti debian-moode /bin/bash -c "apt-get install -y curl sudo libxaw7 ssh libsndfile1 libsndfile1-dev cifs-utils nfs-common"
+sudo docker exec -ti debian-moode /bin/bash -c "apt-get update -y | apt-get upgrade -y"
+sudo docker exec -ti debian-moode /bin/bash -c "apt-get install -y curl sudo libxaw7 ssh libsndfile1 libsndfile1-dev cifs-utils nfs-common -fix-missing"
 sudo docker exec -ti debian-moode /bin/bash -c "apt --fix-broken install -y"
 echo ""
 echo ""
