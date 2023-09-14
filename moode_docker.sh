@@ -38,16 +38,6 @@ sleep 5
 sudo docker run --privileged --rm tonistiigi/binfmt --install all
 sudo docker run --rm --privileged multiarch/qemu-user-static --reset -p yes # This step will execute the registering scripts
 
-echo ""
-echo ""
-echo ""
-echo "********************************************************************************************"
-echo "*   Optional - If you want Moode to get an exlusive access to vital service MPD,CIFS,NFS   *"
-echo "********************************************************************************************"
-echo ""
-echo ""
-echo ""
-echo ""
 echo "" 
 echo "************************************************************************"
 echo "*    create container with systemd in priviledged mode and start it    *"
@@ -71,9 +61,8 @@ echo "*********************************************"
 echo ""
 echo ""
 
-
 sudo docker exec -ti debian-moode /bin/bash -c "apt-get update -y | apt-get upgrade -y"
-sudo docker exec -ti debian-moode /bin/bash -c "apt-get install -y sssd* --fix-missing"
+sudo docker exec -ti debian-moode /bin/bash -c "apt-get install -y sssd sssd-dbus --fix-missing"
 sudo docker exec -ti debian-moode /bin/bash -c "apt-get install -y curl sudo libxaw7 ssh libsndfile1 libsndfile1-dev cifs-utils nfs-common --fix-missing"
 sudo docker exec -ti debian-moode /bin/bash -c "apt --fix-broken install -y"
 echo ""
