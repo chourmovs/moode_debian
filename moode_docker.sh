@@ -28,7 +28,7 @@ echo "****************************************************"
 echo "*            install multiarch qemu layers         *"
 echo "****************************************************"
 echo ""
-sleep 3
+sleep 1
 
 sudo docker run --privileged --rm tonistiigi/binfmt --install all
 sudo docker run --rm --privileged multiarch/qemu-user-static --reset -p yes # This step will execute the registering scripts
