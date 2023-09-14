@@ -48,7 +48,7 @@ echo ""
 echo ""
 echo ""
 echo ""
-echo ""
+echo "" 
 echo "************************************************************************"
 echo "*    create container with systemd in priviledged mode and start it    *"
 echo "************************************************************************"
@@ -57,7 +57,8 @@ echo ""
 sudo docker volume create moode
 
 sudo docker create --name debian-moode --restart always -v /sys/fs/cgroup:/sys/fs/cgroup:ro -v moode:/mnt/NAS \
- --device /dev/snd --net host --privileged -e LANG=C.UTF-8 --cap-add=NET_ADMIN --security-opt seccomp:unconfined --cpu-shares=10240 navikey/raspbian-bullseye /lib/systemd/systemd
+  --device /dev/snd --net host --privileged -e LANG=C.UTF-8 --cap-add=NET_ADMIN --security-opt seccomp:unconfined \
+  --cpu-shares=10240 navikey/raspbian-bullseye /lib/systemd/systemd lib/systemd/systemd log-level=info unit=sysinit.target
 
 sudo docker container start debian-moode
 
