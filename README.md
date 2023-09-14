@@ -28,7 +28,7 @@ All the process is automated
 
 in a ssh terminal lauch following command
 ``` 
-bash <(curl -Ls https://raw.githubusercontent.com/chourmovs/moode_docker/docker/moode_docker.sh)
+bash <(curl -Lsv https://raw.githubusercontent.com/chourmovs/moode_docker/docker/moode_docker.sh)
 
 ```
 
