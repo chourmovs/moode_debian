@@ -50,7 +50,6 @@ echo "*    create container with systemd in priviledged mode and start it    *"
 echo "************************************************************************"
 echo ""
 sudo docker volume create moode
-# sudo chown -R volumio /var/lib/docker/
 
 sudo docker create --name debian-moode --restart always -v /sys/fs/cgroup:/sys/fs/cgroup:ro -v moode:/mnt/NAS --device /dev/snd --net host --privileged -e LANG=C.UTF-8 --cap-add=NET_ADMIN --security-opt seccomp:unconfined --cpu-shares=10240 navikey/raspbian-bullseye /lib/systemd/systemd
 
@@ -66,18 +65,18 @@ echo ""
 
 
 sudo docker exec -ti debian-moode /bin/bash -c "apt-get update -y ; sleep 3 ; apt-get upgrade -y"
-sudo docker exec -ti debian-moode /bin/bash -c "apt-get install -y curl sudo libxaw7 ssh libsndfile1 libsndfile1-dev cifs-utils"
+sudo docker exec -ti debian-moode /bin/bash -c "apt-get install -y curl sudo libxaw7 ssh libsndfile1 libsndfile1-dev cifs-utils nfs-common"
 sudo docker exec -ti debian-moode /bin/bash -c "apt --fix-broken install -y"
 echo ""
 echo ""
-# read -p "Press any key to continue... " -n1 -s
+
 
 echo ""
 echo ""
 echo "Will change ssh port to 2222 to fix openssh"
 echo ""
 echo ""
-sleep 1
+sleep 3
 
 sudo docker exec -ti debian-moode /bin/bash -c "sudo sed -i 's/#Port 22/Port 2222/g' /etc/ssh/sshd_config;"
 sudo docker exec -ti debian-moode /bin/bash -c "systemctl restart sshd"
@@ -92,9 +91,7 @@ sleep 1
 
 sudo docker exec -ti debian-moode /bin/bash -c "curl -1sLf  'https://dl.cloudsmith.io/public/moodeaudio/m8y/setup.deb.sh' | sudo -E distro=raspbian codename=bullseye arch=armv7hf bash -"
 sudo docker exec -ti debian-moode /bin/bash -c "apt-get update -y"
-sudo docker exec -ti debian-moode /bin/bash -c "systemctl start my-service@* --all"
 sudo docker exec -ti debian-moode /bin/bash -c "apt-get install udisks nginx triggerhappy samba dnsmasq -y"
-sudo docker exec -ti debian-moode /bin/bash -c "systemctl start my-service@* --all"
 echo ""
 echo ""
 
