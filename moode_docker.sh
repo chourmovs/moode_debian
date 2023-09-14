@@ -11,13 +11,16 @@ echo ""
 echo ""
 echo ""
 echo "****************************************************"
-echo "*                 Activate Podman                  *"
+echo "*           Install Docker if necessary            *"
 echo "****************************************************"
 echo ""
-# podman machine init
-# podman machine stop
-# podman machine set --rootful
-# podman machine start
+sudo apt update -y
+sudo apt install -y apt-transport-https ca-certificates curl gnupg2 software-properties-common screen
+curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
+sudo add-apt-repository "deb [arch=armhf] https://download.docker.com/linux/debian $(lsb_release -cs) stable"
+sudo apt update -y
+sudo apt install -y docker-ce
+
 echo ""
 echo ""
 echo ""
@@ -27,8 +30,8 @@ echo "****************************************************"
 echo ""
 sleep 3
 
-sudo podman run --privileged --rm tonistiigi/binfmt --install all
-sudo podman run --rm --privileged multiarch/qemu-user-static --reset -p yes # This step will execute the registering scripts
+sudo docker run --privileged --rm tonistiigi/binfmt --install all
+sudo docker run --rm --privileged multiarch/qemu-user-static --reset -p yes # This step will execute the registering scripts
 
 echo ""
 echo ""
@@ -46,23 +49,25 @@ echo "************************************************************************"
 echo "*    create container with systemd in priviledged mode and start it    *"
 echo "************************************************************************"
 echo ""
-echo ""
-sudo podman create --name debian-moode --restart always --network=host --security-opt seccomp:unconfined --privileged navikey/raspbian-bullseye /lib/systemd/systemd
-sudo podman container start debian-moode
-sleep 5
-# podman exec -ti debian-moode /bin/bash -c "ip addr show"
-sleep 5
+sudo docker volume create moode
+# sudo chown -R volumio /var/lib/docker/
 
+sudo docker create --name debian-moode --restart always -v /sys/fs/cgroup:/sys/fs/cgroup:ro -v moode:/mnt/NAS --device /dev/snd --net host --privileged -e LANG=C.UTF-8 --cap-add=NET_ADMIN --security-opt seccomp:unconfined --cpu-shares=10240 navikey/raspbian-bullseye /lib/systemd/systemd
+
+sudo docker container start debian-moode
+
+echo ""
 echo ""
 echo "*********************************************"
 echo "*        install vital dependecies          *"
 echo "*********************************************"
 echo ""
-sleep 3
+echo ""
 
-sudo podman exec -ti debian-moode /bin/bash -c "apt-get update -y ; sleep 3 ; apt-get upgrade -y"
-sudo podman exec -ti debian-moode /bin/bash -c "apt-get install -y curl sudo libxaw7 ssh libsndfile1 libsndfile1-dev cifs-utils"
-sudo podman exec -ti debian-moode /bin/bash -c "apt --fix-broken install -y"
+
+sudo docker exec -ti debian-moode /bin/bash -c "apt-get update -y ; sleep 3 ; apt-get upgrade -y"
+sudo docker exec -ti debian-moode /bin/bash -c "apt-get install -y curl sudo libxaw7 ssh libsndfile1 libsndfile1-dev cifs-utils"
+sudo docker exec -ti debian-moode /bin/bash -c "apt --fix-broken install -y"
 echo ""
 echo ""
 # read -p "Press any key to continue... " -n1 -s
@@ -74,8 +79,8 @@ echo ""
 echo ""
 sleep 1
 
-sudo podman exec -ti debian-moode /bin/bash -c "sudo sed -i 's/#Port 22/Port 2222/g' /etc/ssh/sshd_config;"
-sudo podman exec -ti debian-moode /bin/bash -c "systemctl restart sshd"
+sudo docker exec -ti debian-moode /bin/bash -c "sudo sed -i 's/#Port 22/Port 2222/g' /etc/ssh/sshd_config;"
+sudo docker exec -ti debian-moode /bin/bash -c "systemctl restart sshd"
 
 
 echo ""
@@ -85,16 +90,16 @@ echo "*********************************************"
 echo ""
 sleep 1
 
-sudo podman exec -ti debian-moode /bin/bash -c "curl -1sLf  'https://dl.cloudsmith.io/public/moodeaudio/m8y/setup.deb.sh' | sudo -E distro=raspbian codename=bullseye arch=armv7hf bash -"
-sudo podman exec -ti debian-moode /bin/bash -c "apt-get update -y"
-sudo podman exec -ti debian-moode /bin/bash -c "systemctl start my-service@* --all"
-sudo podman exec -ti debian-moode /bin/bash -c "apt-get install udisks nginx triggerhappy samba dnsmasq -y"
-sudo podman exec -ti debian-moode /bin/bash -c "systemctl start my-service@* --all"
+sudo docker exec -ti debian-moode /bin/bash -c "curl -1sLf  'https://dl.cloudsmith.io/public/moodeaudio/m8y/setup.deb.sh' | sudo -E distro=raspbian codename=bullseye arch=armv7hf bash -"
+sudo docker exec -ti debian-moode /bin/bash -c "apt-get update -y"
+sudo docker exec -ti debian-moode /bin/bash -c "systemctl start my-service@* --all"
+sudo docker exec -ti debian-moode /bin/bash -c "apt-get install udisks nginx triggerhappy samba dnsmasq -y"
+sudo docker exec -ti debian-moode /bin/bash -c "systemctl start my-service@* --all"
 echo ""
 echo ""
-#read -p "Press any key to continue... " -n1 -s
 
-sudo podman exec -ti debian-moode /bin/bash -c "apt-get install moode-player -y --fix-missing"
+
+sudo docker exec -ti debian-moode /bin/bash -c "apt-get install moode-player -y --fix-missing"
 echo ""
 echo ""
 echo ""
@@ -102,22 +107,22 @@ echo "In general this long install return error, next move will try to fix this"
 echo ""
 echo ""
 echo ""
-sudo podman exec -ti debian-moode /bin/bash -c "apt --fix-broken install -y"
+sudo docker exec -ti debian-moode /bin/bash -c "apt --fix-broken install -y"
 sleep 1
 echo ""
 echo ""
 echo ""
-sudo podman exec -ti debian-moode /bin/bash -c "apt-get install moode-player -y --fix-missing"
+sudo docker exec -ti debian-moode /bin/bash -c "apt-get install moode-player -y --fix-missing"
 sleep 1
 echo ""
 echo ""
 echo ""
-sudo podman exec -ti debian-moode /bin/bash -c "apt upgrade -y"
+sudo docker exec -ti debian-moode /bin/bash -c "apt upgrade -y"
 #sleep 1
 echo ""
 echo ""
 echo ""
-sudo podman exec -ti debian-moode /bin/bash -c "exit"       
+sudo docker exec -ti debian-moode /bin/bash -c "exit"       
 echo ""
 
 echo ""
@@ -126,8 +131,8 @@ echo "****************************************"
 echo "*    restart moode player (host side)  *"
 echo "****************************************"
 
-sudo podman container stop debian-moode
-sudo podman container start debian-moode
+sudo docker container stop debian-moode
+sudo docker container start debian-moode
 
 echo ""
 echo ""
@@ -139,9 +144,9 @@ echo "Will change moode http port to 8008 to avoid conflict with volumio front"
 echo ""
 echo ""
 sleep 1
-sudo podman exec -ti debian-moode /bin/bash -c "sudo sed -i 's/80 /8008 /g' /etc/nginx/sites-available/moode-http.conf"
-sudo podman exec -ti debian-moode /bin/bash -c "systemctl start my-service@* --all"
-sudo podman exec -ti debian-moode /bin/bash -c "systemctl restart nginx"
+sudo docker exec -ti debian-moode /bin/bash -c "sudo sed -i 's/80 /8008 /g' /etc/nginx/sites-available/moode-http.conf"
+sudo docker exec -ti debian-moode /bin/bash -c "systemctl start my-service@* --all"
+sudo docker exec -ti debian-moode /bin/bash -c "systemctl restart nginx"
 
 echo ""
 echo "****************************"
