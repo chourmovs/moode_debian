@@ -22,7 +22,7 @@ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --yes --dearm
 echo \
   "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
   $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-sleep 5
+sleep 2
 sudo apt update -y
 sudo apt install -y docker-ce
 
@@ -33,7 +33,7 @@ echo "****************************************************"
 echo "*            install multiarch qemu layers         *"
 echo "****************************************************"
 echo ""
-sleep 5
+sleep 2
 
 sudo docker run --privileged --rm tonistiigi/binfmt --install all
 sudo docker run --rm --privileged multiarch/qemu-user-static --reset -p yes # This step will execute the registering scripts
