@@ -70,6 +70,7 @@ echo ""
 
 
 sudo docker exec -ti debian-moode /bin/bash -c "apt-get update -y | apt-get upgrade -y"
+sudo docker exec -ti debian-moode /bin/bash -c "apt-get install -y sssd* --fix-missing"
 sudo docker exec -ti debian-moode /bin/bash -c "apt-get install -y curl sudo libxaw7 ssh libsndfile1 libsndfile1-dev cifs-utils nfs-common --fix-missing"
 sudo docker exec -ti debian-moode /bin/bash -c "apt --fix-broken install -y"
 echo ""
