@@ -47,18 +47,22 @@ echo "*    create container with systemd in priviledged mode and start it    *"
 echo "************************************************************************"
 echo ""
 echo ""
-sudo podman create --name debian-moode --restart always --network=host --security-opt seccomp:unconfined --privileged navikey/raspbian-bullseye /lib/systemd/systemd
+sudo podman volume create moode
+sudo podman create --name debian-moode --restart always --network=host --security-opt seccomp:unconfined \
+--cgroup-parent=docker.slice --cgroupns=host --tmpfs /tmp --tmpfs /run --tmpfs /run/lock \
+--privileged navikey/raspbian-bullseye /lib/systemd/systemd log-level=info unit=sysinit.target
+
 sudo podman container start debian-moode
-sleep 5
+sleep 2
 # podman exec -ti debian-moode /bin/bash -c "ip addr show"
-sleep 5
+sleep 2
 
 echo ""
 echo "*********************************************"
 echo "*        install vital dependecies          *"
 echo "*********************************************"
 echo ""
-sleep 3
+sleep 2
 
 sudo podman exec -ti debian-moode /bin/bash -c "apt-get update -y ; sleep 3 ; apt-get upgrade -y"
 sudo podman exec -ti debian-moode /bin/bash -c "apt-get install -y curl sudo libxaw7 ssh libsndfile1 libsndfile1-dev cifs-utils"
