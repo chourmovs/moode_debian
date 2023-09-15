@@ -35,8 +35,8 @@ echo "****************************************************"
 echo ""
 sleep 2
 
-sudo docker run --privileged --rm tonistiigi/binfmt --install all
-sudo docker run --rm --privileged multiarch/qemu-user-static --reset -p yes # This step will execute the registering scripts
+# sudo docker run --privileged --rm tonistiigi/binfmt --install all
+# sudo docker run --rm --privileged multiarch/qemu-user-static --reset -p yes # This step will execute the registering scripts
 
 echo "" 
 echo "************************************************************************"
@@ -62,8 +62,8 @@ echo ""
 echo ""
 
 sudo docker exec -ti debian-moode /bin/bash -c "apt-get update -y | apt-get upgrade -y"
-sudo docker exec -ti debian-moode /bin/bash -c "apt-get install -y sssd sssd-dbus --fix-missing"
-sudo docker exec -ti debian-moode /bin/bash -c "apt-get install -y curl sudo libxaw7 ssh libsndfile1 libsndfile1-dev cifs-utils nfs-common --fix-missing"
+# sudo docker exec -ti debian-moode /bin/bash -c "apt-get install -y sssd sssd-dbus --fix-missing"
+sudo docker exec -ti debian-moode /bin/bash -c "apt-get install -y curl sudo libxaw7 ssh libsndfile1 libsndfile1-dev cifs-utils nfs-common"
 sudo docker exec -ti debian-moode /bin/bash -c "apt --fix-broken install -y"
 echo ""
 echo ""
