@@ -48,7 +48,7 @@ sudo docker volume create moode
 
 sudo docker create --name debian-moode --restart always -v moode:/mnt/NAS \
 --privileged -e LANG=C.UTF-8 --cap-add=NET_ADMIN --security-opt seccomp:unconfined --net host \
---cgroup-parent=docker.slice --cgroupns=host --tmpfs /tmp --tmpfs /run --tmpfs /run/lock \
+--tmpfs /tmp --tmpfs /run --tmpfs /run/lock /sys/fs/cgroup:/sys/fs/cgroup:ro \
 navikey/raspbian-bullseye /lib/systemd/systemd log-level=info unit=sysinit.target
 
 sudo docker container start debian-moode
