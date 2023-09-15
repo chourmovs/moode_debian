@@ -32,7 +32,7 @@ echo ""
 echo "****************************************************"
 echo "*            install multiarch qemu layers         *"
 echo "****************************************************"
-echo ""
+echo "" 
 sleep 2
 
 # sudo docker run --privileged --rm tonistiigi/binfmt --install all
