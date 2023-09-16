@@ -27,11 +27,17 @@ echo "************************************************************************"
 echo ""
 echo ""
 sudo podman volume create moode
-sudo podman create --name debian-moode --restart always --network=host --security-opt seccomp:unconfined \
+sudo podman create --name debian-moode --network=host --security-opt seccomp:unconfined \
 --cgroup-parent=docker.slice --cgroupns=host --tmpfs /tmp --tmpfs /run --tmpfs /run/lock \
---privileged navikey/raspbian-bullseye /lib/systemd/systemd log-level=info unit=sysinit.target
+--privileged navikey/raspbian-bullseye
 
-sudo podman container start debian-moode
+# sudo podman container start debian-moode
+sudo podman generate systemd --new --files -n debian-moode
+sudo cp /home/$USER/container-debian-moode.service /etc/systemd/system
+systemctl daemon-reload
+systemctl start container-debian-moode
+
+
 sleep 2
 # podman exec -ti debian-moode /bin/bash -c "ip addr show"
 sleep 2
@@ -109,8 +115,8 @@ echo "****************************************"
 echo "*    restart moode player (host side)  *"
 echo "****************************************"
 
-sudo podman container stop debian-moode
-sudo podman container start debian-moode
+systemctl stop container-debian-moode
+systemctl start container-debian-moode
 
 echo ""
 echo ""
