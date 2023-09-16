@@ -1,7 +1,7 @@
-# Moode_docker
+# Moode_debian
 
-This bash script will allow you to setup a full fontionnal moode-player OS in a multicarch docker environment
-All the process is automated 
+This bash script will allow you to setup a full fontionnal moode-player OS in a multicarch systemd podman environment
+All the process is automated
 &nbsp;  &nbsp;  
 
 # What you get 
@@ -20,7 +20,7 @@ All the process is automated
 ```
 # Prerequisite
 
-- Docker installed on your machine
+- Debian bullseye (11) installed on your machine
 - A terminal to ssh (my preference go to Mobaxterm)    
 &nbsp;  &nbsp;  
 
