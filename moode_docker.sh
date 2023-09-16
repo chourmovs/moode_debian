@@ -9,7 +9,6 @@ echo "****************************************************"
 echo ""
 echo ""
 echo ""
-echo ""
 echo "****************************************************"
 echo "*           Install Docker if necessary            *"
 echo "****************************************************"
@@ -26,7 +25,6 @@ echo \
   "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian \
   "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
   sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-sudo apt-get update
 sleep 2
 sudo apt update -y
 sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
@@ -37,6 +35,7 @@ echo ""
 echo "****************************************************"
 echo "*            install multiarch qemu layers         *"
 echo "****************************************************"
+echo "" 
 echo "" 
 sleep 2
 
@@ -53,7 +52,7 @@ sudo docker volume create moode
 
 sudo docker create --name debian-moode --restart always -v moode:/mnt/NAS -v /sys/fs/cgroup:/sys/fs/cgroup:ro \
 --privileged -e LANG=C.UTF-8 --cap-add=NET_ADMIN --security-opt seccomp:unconfined --net host \
---tmpfs /tmp --tmpfs /run --tmpfs /run/lock \
+--tmpfs /tmp --tmpfs /run --tmpfs /run/lock --cgroupns=private \
 navikey/raspbian-bullseye /lib/systemd/systemd log-level=info unit=sysinit.target
 
 sudo docker container start debian-moode
