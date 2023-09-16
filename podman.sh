@@ -1,13 +1,10 @@
 #!/bin/bash
-
 printf "\ec"
 echo ""
 echo "****************************************************"
 echo "*     latest podman and qemu install script        *"
 echo "*             By chourmovs                         *"
 echo "****************************************************"
-echo ""
-echo ""
 echo ""
 echo ""
 sudo rm /etc/apt/sources.list.d/sid.list
