@@ -15,10 +15,8 @@ echo "*                 Activate Podman                  *"
 echo "****************************************************"
 echo ""
 
-podman system migrate
-podman machine init
-podman machine start
-
+curl -1sLfv  'https://raw.githubusercontent.com/chourmovs/moode_debian/qemu/Dockerfile'
+curl -1sLfv  'https://raw.githubusercontent.com/chourmovs/moode_debian/qemu/initctl_faker'
 
 
 echo "************************************************************************"
