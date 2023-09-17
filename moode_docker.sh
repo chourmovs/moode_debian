@@ -134,7 +134,6 @@ echo ""
 echo ""
 sleep 1
 podman exec -it debian-arm /usr/bin/qemu-arm-static -execve /bin/bash -c "sudo sed -i 's/80 /8008 /g' /etc/nginx/sites-available/moode-http.conf"
-podman exec -it debian-arm /usr/bin/qemu-arm-static -execve /bin/bash -c "systemctl start my-service@* --all"
 podman exec -it debian-arm /usr/bin/qemu-arm-static -execve /bin/bash -c "systemctl restart nginx"
 
 echo ""
