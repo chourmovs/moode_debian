@@ -134,9 +134,9 @@ echo "****************************************"
 #systemctl stop container-debian-moode
 #systemctl start container-debian-moode
 echo "podman container stop debian-moode"
-sudo podman container stop debian-moode
+sudo podman container stop debian-arm
 echo "podman container start debian-moode"
-sudo podman container start debian-moode
+sudo podman container start debian-arm
 
 echo ""
 echo ""
