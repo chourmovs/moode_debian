@@ -1,3 +1,5 @@
+ENV DEBIAN_FRONTEND noninteractive
+
 FROM docker.io/balenalib/armv7hf-debian as base
 
 FROM docker.io/balenalib/armv7hf-debian
@@ -24,3 +26,5 @@ CMD ["/lib/systemd/systemd"]
 
 
 RUN [ "cross-build-end" ]
+
+ENV DEBIAN_FRONTEND teletype
