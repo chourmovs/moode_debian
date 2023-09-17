@@ -14,10 +14,10 @@ echo "****************************************************"
 echo "*                 Activate Podman                  *"
 echo "****************************************************"
 echo ""
-# podman machine init
-# podman machine stop
-# podman machine set --rootful
-# podman machine start
+
+podman system migrate
+podman machine init
+podman machine start
 
 
 
