@@ -1,8 +1,9 @@
 ENV DEBIAN_FRONTEND noninteractive
 
-FROM docker.io/balenalib/armv7hf-debian as base
-
-FROM docker.io/balenalib/armv7hf-debian
+#FROM docker.io/balenalib/armv7hf-debian as base
+FROM docker.io/navikey/raspbian-bullseye as base
+FROM docker.io/navikey/raspbian-bullseye
+#FROM docker.io/balenalib/armv7hf-debian
 
 COPY --from=base /bin/sh /bin/sh.real
 
