@@ -34,8 +34,8 @@ sudo podman create --name debian-moode --network=host --security-opt seccomp:unc
 # sudo podman container start debian-moode
 sudo podman generate systemd --new --files -n debian-moode
 sudo cp /home/$USER/container-debian-moode.service /etc/systemd/system
-sudo systemctl daemon-reload
-sudo systemctl start container-debian-moode
+systemctl daemon-reload
+systemctl start container-debian-moode
 
 
 sleep 2
@@ -115,8 +115,8 @@ echo "****************************************"
 echo "*    restart moode player (host side)  *"
 echo "****************************************"
 
-sudo systemctl stop container-debian-moode
-sudo systemctl start container-debian-moode
+systemctl stop container-debian-moode
+systemctl start container-debian-moode
 
 echo ""
 echo ""
