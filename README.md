@@ -21,7 +21,7 @@ All the process is automated
 # Prerequisite
 
 - Debian bullseye (11) installed on your machine
-- Podman version 4.x installed see https://podman.io/docs/installation (i propose a bash scrip for debian in my tree)
+- Podman version 4.x installed see https://podman.io/docs/installation (i propose a bash scrip for debian in my tree named podamn.sh : bash <(curl -Lsv https://raw.githubusercontent.com/chourmovs/moode_debian/main/podman.sh)
 - A terminal to ssh (my preference go to Mobaxterm)    
 &nbsp;  &nbsp;  
 
@@ -29,14 +29,14 @@ All the process is automated
 
 in a ssh terminal lauch following command
 ``` 
-bash <(curl -Lsv https://raw.githubusercontent.com/chourmovs/moode_docker/main/moode_docker.sh)
+bash <(curl -Lsv https://raw.githubusercontent.com/chourmovs/moode_docker/main/moode_docker.sh)h
 
 ```
 
 And follow the instructions...    
 &nbsp;  &nbsp;  
 
-# Troubleshoot
+# Troubleshoot (work in progress)
 
 Q : My share can't mont &nbsp;  &nbsp;   
 A : try to edit path manually in Library/host and remove any option in Library/advanced/mount options (leave it blank and save)
