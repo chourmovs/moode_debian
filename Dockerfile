@@ -1,4 +1,8 @@
-FROM balenalib/armv7hf-debian
+FROM docker.io/balenalib/armv7hf-debian as base
+
+FROM docker.io/balenalib/armv7hf-debian
+
+COPY --from=base /bin/sh /bin/sh.real
 
 RUN [ "cross-build-start" ]
 
