@@ -29,7 +29,7 @@ echo ""
 # sudo podman container start debian-moode
 buildah build -t localhost/debian-arm -v -f Dockerfile .
 
-podman run --systemd=always -td --name=debian-arm --network=host -security-opt seccomp:unconfined --privileged --entrypoint=/usr/bin/qemu-arm-static localhost/debian-arm -execve -0 /sbin/init /sbin/init
+podman run --systemd=always -td --name=debian-arm --network=host -security-opt seccomp:unconfined --privileged --entrypoint=/usr/bin/qemu-arm-static --platform linux/amd64 localhost/debian-arm -execve -0 /sbin/init /sbin/init
 
 
 
