@@ -27,9 +27,7 @@ echo "************************************************************************"
 echo ""
 echo ""
 sudo podman volume create moode
-sudo podman create --name debian-moode --network=host --security-opt seccomp:unconfined \
---cgroup-parent=docker.slice --cgroupns=host \
---privileged navikey/raspbian-bullseye /lib/systemd/systemd
+sudo podman run --name debian-moode --network=host --security-opt seccomp:unconfined --privileged navikey/raspbian-bullseye /lib/systemd/systemd
 
 # sudo podman container start debian-moode
 sudo podman generate systemd --new --files -n debian-moode
