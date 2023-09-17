@@ -29,7 +29,7 @@ echo ""
 # sudo podman container start debian-moode
 
 echo "buildah"
-buildah build -t localhost/debian-arm -v -f Dockerfile --platform linux/amd64/v7 .
+buildah build -t localhost/debian-arm -f Dockerfile .
 echo ""
 echo ""
 echo "podman run"
