@@ -74,9 +74,7 @@ sleep 1
 
 podman exec -ti debian-moode /bin/bash -c "curl -1sLf  'https://dl.cloudsmith.io/public/moodeaudio/m8y/setup.deb.sh' | sudo -E distro=raspbian codename=bullseye arch=armv7hf bash -"
 podman exec -ti debian-moode /bin/bash -c "apt-get update -y"
-podman exec -ti debian-moode /bin/bash -c "systemctl start my-service@* --all"
 podman exec -ti debian-moode /bin/bash -c "apt-get install udisks nginx triggerhappy samba dnsmasq -y"
-podman exec -ti debian-moode /bin/bash -c "systemctl start my-service@* --all"
 echo ""
 echo ""
 #read -p "Press any key to continue... " -n1 -s
@@ -103,8 +101,7 @@ podman exec -ti debian-moode /bin/bash -c "apt upgrade -y"
 #sleep 1
 echo ""
 echo ""
-echo ""
-podman exec -ti debian-moode /bin/bash -c "exit"       
+echo ""  
 echo ""
 
 echo ""
