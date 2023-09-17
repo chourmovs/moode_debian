@@ -9,7 +9,8 @@ COPY --from=base /bin/sh /bin/sh.real
 RUN [ "cross-build-start" ]
 
 
-RUN apt-get update && apt-get install -y --no-install-recommends apt-utils \
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends apt-utils \
        sudo systemd systemd-sysv \
     && rm -rf /var/lib/apt/lists/* \
     && rm -Rf /usr/share/doc && rm -Rf /usr/share/man \
