@@ -21,6 +21,7 @@ All the process is automated
 # Prerequisite
 
 - Debian bullseye (11) installed on your machine
+- Podman version 4.x installed see https://podman.io/docs/installation (i propose a bash scrip for debian in my tree)
 - A terminal to ssh (my preference go to Mobaxterm)    
 &nbsp;  &nbsp;  
 
