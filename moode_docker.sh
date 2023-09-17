@@ -29,14 +29,14 @@ sudo buildah build -t localhost/debian-arm -f Dockerfile .
 echo ""
 echo ""
 echo "podman run --systemd=always"
-sudo docker volume create moode
+sudo podman volume create moode
 sudo podman run --systemd=always -td --name=debian-arm -v moode:/sys:rw -vmoode:/boot:rw --network=host --arch=arm --privileged --security-opt seccomp:unconfined \
 --entrypoint=/usr/bin/qemu-arm-static localhost/debian-arm -execve -0 /sbin/init /sbin/init 
 echo ""
 echo ""
 
 
-podman generate systemd --new --files -n debian-arm
+sudo podman generate systemd --new --files -n debian-arm
 sudo cp /home/$USER/container-debian-arm.service /etc/systemd/system
 systemctl daemon-reload
 systemctl start container-debian-arm
