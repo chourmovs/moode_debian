@@ -65,9 +65,11 @@ echo ""
 echo "Will change ssh port to 2222 to fix openssh"
 echo ""
 echo ""
-sleep 1
 
-sudo podman exec -it debian-arm /usr/bin/qemu-arm-static -execve /bin/bash -c "sudo sed -i 's/#Port 22/Port 2222/g' /etc/ssh/sshd_config;"
+sleep 1
+echo "sudo sed -i 's/#Port 22/Port 2222/g' /etc/ssh/sshd_config"
+sudo podman exec -it debian-arm /usr/bin/qemu-arm-static -execve /bin/bash -c "sudo sed -i 's/#Port 22/Port 2222/g' /etc/ssh/sshd_config"
+echo ""
 sudo podman exec -it debian-arm /usr/bin/qemu-arm-static -execve /bin/bash -c "systemctl restart sshd"
 
 
@@ -77,14 +79,21 @@ echo "*        install moode player               *"
 echo "*********************************************"
 echo ""
 sleep 1
-
+echo "curl -1sLf  'https://dl.cloudsmith.io/public/moodeaudio/m8y/setup.deb.sh' | sudo -E distro=raspbian codename=bullseye arch=armv7hf bash -"
 sudo podman exec -it debian-arm /usr/bin/qemu-arm-static -execve /bin/bash -c "curl -1sLf  'https://dl.cloudsmith.io/public/moodeaudio/m8y/setup.deb.sh' | sudo -E distro=raspbian codename=bullseye arch=armv7hf bash -"
+echo ""
+echo ""
+
+echo "apt-get update -y"
 sudo podman exec -it debian-arm /usr/bin/qemu-arm-static -execve /bin/bash -c "apt-get update -y"
+echo ""
+echo "apt-get install udisks nginx triggerhappy samba dnsmasq -y"
 sudo podman exec -it debian-arm /usr/bin/qemu-arm-static -execve /bin/bash -c "apt-get install udisks nginx triggerhappy samba dnsmasq -y"
 echo ""
 echo ""
 #read -p "Press any key to continue... " -n1 -s
 
+echo "apt-get install moode-player -y --fix-missing"
 sudo podman exec -it debian-arm /usr/bin/qemu-arm-static -execve /bin/bash -c "apt-get install moode-player -y --fix-missing"
 echo ""
 echo ""
@@ -92,17 +101,17 @@ echo ""
 echo "In general this long install return error, next move will try to fix this"
 echo ""
 echo ""
-echo ""
+echo "apt --fix-broken install -y"
 sudo podman exec -it debian-arm /usr/bin/qemu-arm-static -execve /bin/bash -c "apt --fix-broken install -y"
 sleep 1
 echo ""
 echo ""
-echo ""
+echo "apt-get install moode-player -y --fix-missing"
 sudo podman exec -it debian-arm /usr/bin/qemu-arm-static -execve /bin/bash -c "apt-get install moode-player -y --fix-missing"
 sleep 1
 echo ""
 echo ""
-echo ""
+echo "apt upgrade -y"
 sudo podman exec -it debian-arm /usr/bin/qemu-arm-static -execve /bin/bash -c "apt upgrade -y"
 #sleep 1
 echo ""
@@ -118,7 +127,9 @@ echo "****************************************"
 
 #systemctl stop container-debian-moode
 #systemctl start container-debian-moode
+echo "podman container stop debian-moode"
 sudo podman container stop debian-moode
+echo "podman container start debian-moode"
 sudo podman container start debian-moode
 
 echo ""
@@ -127,9 +138,11 @@ echo "***************************************"
 echo "*    configure nginx (container side) *"
 echo "***************************************"
 echo ""
+echo ""
 echo "Will change moode http port to 8008 to avoid conflict with volumio front"
 echo ""
 echo ""
+echo "sudo sed -i 's/80 /8008 /g' /etc/nginx/sites-available/moode-http.conf"
 sleep 1
 sudo podman exec -it debian-arm /usr/bin/qemu-arm-static -execve /bin/bash -c "sudo sed -i 's/80 /8008 /g' /etc/nginx/sites-available/moode-http.conf"
 sudo podman exec -it debian-arm /usr/bin/qemu-arm-static -execve /bin/bash -c "systemctl restart nginx"
