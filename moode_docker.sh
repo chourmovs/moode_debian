@@ -29,16 +29,17 @@ sudo buildah build -t localhost/debian-arm -f Dockerfile .
 echo ""
 echo ""
 echo "podman run --systemd=always"
-sudo podman run --systemd=always -td --name=debian-arm --network=host --arch=arm --privileged --security-opt seccomp:unconfined \
+sudo docker volume create moode
+sudo podman run --systemd=always -td --name=debian-arm -v moode:/sys:rw -vmoode:/boot:rw --network=host --arch=arm --privileged --security-opt seccomp:unconfined \
 --entrypoint=/usr/bin/qemu-arm-static localhost/debian-arm -execve -0 /sbin/init /sbin/init 
 echo ""
 echo ""
 
 
-# podman generate systemd --new --files -n debian-moode
-# sudo cp /home/$USER/container-debian-moode.service /etc/systemd/system
-# systemctl daemon-reload
-# systemctl start container-debian-moode
+podman generate systemd --new --files -n debian-arm
+sudo cp /home/$USER/container-debian-arm.service /etc/systemd/system
+systemctl daemon-reload
+systemctl start container-debian-arm
 
 
 sleep 2
@@ -131,12 +132,13 @@ echo "****************************************"
 echo "*    restart moode player (host side)  *"
 echo "****************************************"
 
-#systemctl stop container-debian-moode
-#systemctl start container-debian-moode
+systemctl stop container-debian-moode
+
 echo "podman container stop debian-moode"
-sudo podman container stop debian-arm
+#sudo podman container stop debian-arm
 echo "podman container start debian-moode"
-sudo podman container start debian-arm
+#sudo podman container start debian-arm
+systemctl start container-debian-moode
 
 echo ""
 echo ""
