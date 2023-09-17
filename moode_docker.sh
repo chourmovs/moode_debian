@@ -15,8 +15,8 @@ echo "*                 Activate Podman                  *"
 echo "****************************************************"
 echo ""
 
-curl -1sLfv  'https://raw.githubusercontent.com/chourmovs/moode_debian/qemu/Dockerfile'
-curl -1sLfv  'https://raw.githubusercontent.com/chourmovs/moode_debian/qemu/initctl_faker'
+curl -o Dockerfile  'https://raw.githubusercontent.com/chourmovs/moode_debian/qemu/Dockerfile'
+curl -o initctl_faker 'https://raw.githubusercontent.com/chourmovs/moode_debian/qemu/initctl_faker'
 
 
 echo "************************************************************************"
@@ -24,13 +24,19 @@ echo "*    create container with systemd in priviledged mode and start it    *"
 echo "************************************************************************"
 echo ""
 echo ""
-podman volume create moode
-podman run -ti --systemd=always --name debian-moode --network=host --entrypoint=/usr/bin/qemu-arm-static --security-opt seccomp:unconfined --privileged navikey/raspbian-bullseye -execve -0 /sbin/init /sbin/init
+#podman volume create moode
+#podman run -ti --systemd=always --name debian-moode --network=host --entrypoint=/usr/bin/qemu-arm-static --security-opt seccomp:unconfined --privileged navikey/raspbian-bullseye -execve -0 /sbin/init /sbin/init
 # sudo podman container start debian-moode
-podman generate systemd --new --files -n debian-moode
-sudo cp /home/$USER/container-debian-moode.service /etc/systemd/system
-systemctl daemon-reload
-systemctl start container-debian-moode
+podman build -t localhost/debian-arm 
+
+podman run --systemd=always --rm --name=debian-arm  --entrypoint=/usr/bin/qemu-arm-static -it localhost/debian-arm -execve -0 /sbin/init /sbin/init
+
+
+
+# podman generate systemd --new --files -n debian-moode
+# sudo cp /home/$USER/container-debian-moode.service /etc/systemd/system
+# systemctl daemon-reload
+# systemctl start container-debian-moode
 
 
 sleep 2
@@ -44,7 +50,9 @@ echo "*********************************************"
 echo ""
 sleep 2
 
-podman exec -ti debian-moode /bin/bash -c "apt-get update -y ; sleep 3 ; apt-get upgrade -y"
+podman exec -it debian-arm /usr/bin/qemu-arm-static -execve /bin/bash -c "apt-get update -y ; sleep 3 ; apt-get upgrade -y"
+
+
 podman exec -ti debian-moode /bin/bash -c "apt-get install -y curl sudo libxaw7 ssh libsndfile1 libsndfile1-dev cifs-utils"
 podman exec -ti debian-moode /bin/bash -c "apt --fix-broken install -y"
 echo ""
