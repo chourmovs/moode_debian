@@ -33,7 +33,7 @@ buildah build -t localhost/debian-arm -f Dockerfile .
 echo ""
 echo ""
 echo "podman run"
-podman run --systemd=always -td --name=debian-arm --network=host --platform=linux/arm/v7 --security-opt seccomp:unconfined --privileged \
+podman run --systemd=always -td --name=debian-arm --network=host --arch=arm --security-opt seccomp:unconfined --privileged \
 --entrypoint=/usr/bin/qemu-arm-static localhost/debian-arm -execve -0 /sbin/init /sbin/init 
 echo ""
 echo ""
