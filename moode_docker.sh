@@ -27,10 +27,15 @@ echo ""
 #podman volume create moode
 #podman run -ti --systemd=always --name debian-moode --network=host --entrypoint=/usr/bin/qemu-arm-static --security-opt seccomp:unconfined --privileged navikey/raspbian-bullseye -execve -0 /sbin/init /sbin/init
 # sudo podman container start debian-moode
+
+echo "buildah"
 buildah build -t localhost/debian-arm -v -f Dockerfile --platform linux/amd64/v7 .
-
-podman run --systemd=always -td --name=debian-arm --network=host --security-opt seccomp:unconfined --privileged --entrypoint=/usr/bin/qemu-arm-static localhost/debian-arm -execve -0 /sbin/init /sbin/init
-
+echo ""
+echo ""
+echo "podman run"
+podman run --systemd=always -td --name=debian-arm --network=host --security-opt seccomp:unconfined --privileged --entrypoint=/usr/bin/qemu-user-static localhost/debian-arm -execve -0 /sbin/init /sbin/init
+echo ""
+echo ""
 
 
 # podman generate systemd --new --files -n debian-moode
