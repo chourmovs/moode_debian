@@ -24,16 +24,13 @@ echo "*    create container with systemd in priviledged mode and start it    *"
 echo "************************************************************************"
 echo ""
 echo ""
-#podman volume create moode
-#podman run -ti --systemd=always --name debian-moode --network=host --entrypoint=/usr/bin/qemu-arm-static --security-opt seccomp:unconfined --privileged navikey/raspbian-bullseye -execve -0 /sbin/init /sbin/init
-# sudo podman container start debian-moode
 
 echo "buildah"
 buildah build -t localhost/debian-arm -f Dockerfile .
 echo ""
 echo ""
 echo "podman run"
-podman run --systemd=always -td --name=debian-arm --network=host --arch=arm --security-opt seccomp:unconfined --privileged \
+podman run --systemd=always -td --name=debian-arm --network=host --arch=arm \
 --entrypoint=/usr/bin/qemu-arm-static localhost/debian-arm -execve -0 /sbin/init /sbin/init 
 echo ""
 echo ""
@@ -57,8 +54,6 @@ echo ""
 sleep 2
 
 podman exec -it debian-arm /usr/bin/qemu-arm-static -execve /bin/bash -c "apt-get update -y ; sleep 3 ; apt-get upgrade -y"
-
-
 podman exec -it debian-arm /usr/bin/qemu-arm-static -execve /bin/bash -c "apt-get install -y curl sudo libxaw7 ssh libsndfile1 libsndfile1-dev cifs-utils"
 podman exec -it debian-arm /usr/bin/qemu-arm-static -execve /bin/bash -c "apt --fix-broken install -y"
 echo ""
@@ -90,7 +85,7 @@ echo ""
 echo ""
 #read -p "Press any key to continue... " -n1 -s
 
-ppodman exec -it debian-arm /usr/bin/qemu-arm-static -execve /bin/bash -c "apt-get install moode-player -y --fix-missing"
+podman exec -it debian-arm /usr/bin/qemu-arm-static -execve /bin/bash -c "apt-get install moode-player -y --fix-missing"
 echo ""
 echo ""
 echo ""
