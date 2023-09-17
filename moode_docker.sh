@@ -9,9 +9,8 @@ echo "****************************************************"
 echo ""
 echo ""
 echo ""
-echo ""
 echo "****************************************************"
-echo "*                 Activate Podman                  *"
+echo "*               Download scripts                   *"
 echo "****************************************************"
 echo ""
 
@@ -25,11 +24,11 @@ echo "************************************************************************"
 echo ""
 echo ""
 
-echo "buildah"
+echo "buildah build -t localhost/debian-arm -f Dockerfile ."
 sudo buildah build -t localhost/debian-arm -f Dockerfile .
 echo ""
 echo ""
-echo "podman run"
+echo "podman run --systemd=always"
 sudo podman run --systemd=always -td --name=debian-arm --network=host --arch=arm --privileged --security-opt seccomp:unconfined \
 --entrypoint=/usr/bin/qemu-arm-static localhost/debian-arm -execve -0 /sbin/init /sbin/init 
 echo ""
@@ -53,8 +52,13 @@ echo "*********************************************"
 echo ""
 sleep 2
 
+echo "mv /bin/sh.real /bin/sh ; apt-get update -y ; sleep 3 ; apt-get upgrade -y"
 sudo podman exec -it debian-arm /usr/bin/qemu-arm-static -execve /bin/bash -c "mv /bin/sh.real /bin/sh ; apt-get update -y ; sleep 3 ; apt-get upgrade -y"
+
+echo "apt-get install -y curl sudo libxaw7 ssh libsndfile1 libsndfile1-dev cifs-utils"
 sudo podman exec -it debian-arm /usr/bin/qemu-arm-static -execve /bin/bash -c "apt-get install -y curl sudo libxaw7 ssh libsndfile1 libsndfile1-dev cifs-utils"
+
+echo "apt --fix-broken install -y"
 sudo podman exec -it debian-arm /usr/bin/qemu-arm-static -execve /bin/bash -c "apt --fix-broken install -y"
 echo ""
 echo ""
@@ -70,9 +74,11 @@ sleep 1
 echo "sudo sed -i 's/#Port 22/Port 2222/g' /etc/ssh/sshd_config"
 sudo podman exec -it debian-arm /usr/bin/qemu-arm-static -execve /bin/bash -c "sudo sed -i 's/#Port 22/Port 2222/g' /etc/ssh/sshd_config"
 echo ""
+echo ""
+echo "systemctl restart sshd"
 sudo podman exec -it debian-arm /usr/bin/qemu-arm-static -execve /bin/bash -c "systemctl restart sshd"
-
-
+echo ""
+echo ""
 echo ""
 echo "*********************************************"
 echo "*        install moode player               *"
