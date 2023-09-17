@@ -4,7 +4,7 @@ This bash script will allow you to setup a full fontionnal moode-player OS in a 
 All the process is automated
 &nbsp;  &nbsp;  
 
-# What you get 
+# What you get (work in progress)
 ```
   ###   is working
  - UI and artworks without any restriction ( First time it's slow when building library)
