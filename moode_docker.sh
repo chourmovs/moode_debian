@@ -27,8 +27,7 @@ echo "************************************************************************"
 echo ""
 echo ""
 podman volume create moode
-podman run -tid --name debian-moode --network=host --security-opt seccomp:unconfined --privileged navikey/raspbian-bullseye /lib/systemd/systemd
-
+podman run -ti --systemd=always --name debian-moode --network=host --entrypoint=/usr/bin/qemu-arm-static --security-opt seccomp:unconfined --privileged navikey/raspbian-bullseye -execve -0 /sbin/init /sbin/init
 # sudo podman container start debian-moode
 podman generate systemd --new --files -n debian-moode
 sudo cp /home/$USER/container-debian-moode.service /etc/systemd/system
