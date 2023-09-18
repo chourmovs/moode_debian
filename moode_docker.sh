@@ -87,7 +87,7 @@ echo "*********************************************"
 echo ""
 sleep 1
 echo "curl -1sLf  'https://dl.cloudsmith.io/public/moodeaudio/m8y/setup.deb.sh' | sudo -E distro=raspbian codename=bullseye arch=armv7hf bash -"
-sudo podman exec -it debian-arm /usr/bin/qemu-arm-static -execve /bin/bash -c "curl -1sLf  'https://dl.cloudsmith.io/public/moodeaudio/m8y/setup.deb.sh' | sudo -E distro=raspbian codename=bullseye arch=armv7hf bash -"
+sudo podman exec -it debian-arm /usr/bin/qemu-arm-static -execve /bin/bash -c "curl -1sLf  'https://dl.cloudsmith.io/public/moodeaudio/m8y/setup.deb.sh' | sudo -E distro=raspbian codename=bullseye arch=armv7hf bash - "
 echo ""
 echo ""
 
