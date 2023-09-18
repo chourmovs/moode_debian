@@ -11,7 +11,7 @@ RUN [ "cross-build-start" ]
 
 
 RUN apt-get update \
-    && apt-get install -y -f --no-install-recommends apt-utils curl sudo libxaw7 ssh libsndfile1 libsndfile1-dev cifs-utils
+    && apt-get install -y -f apt-utils curl libxaw7 ssh libsndfile1 libsndfile1-dev cifs-utils
        sudo systemd systemd-sysv \
     && rm -rf /var/lib/apt/lists/* \
     && rm -Rf /usr/share/doc && rm -Rf /usr/share/man \
