@@ -30,7 +30,7 @@ echo ""
 echo ""
 echo "podman run --systemd=always"
 sudo podman volume create moode
-sudo podman run --systemd=always -td --name=debian-arm -v moode/sys:/sys:rw -v moode/boot:/boot:rw --network=host --arch=arm --privileged --security-opt seccomp:unconfined \
+sudo podman run --systemd=always -td --name=debian-arm -v /home/chou/moode/sys:/sys:rw -v /home/chou/moode/boot:/boot:rw --network=host --arch=arm --privileged --security-opt seccomp:unconfined \
 --entrypoint=/usr/bin/qemu-arm-static localhost/debian-arm -execve -0 /sbin/init /sbin/init 
 echo ""
 echo ""
