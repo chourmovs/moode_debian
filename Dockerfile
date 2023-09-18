@@ -1,9 +1,7 @@
 ENV DEBIAN_FRONTEND noninteractive
 
-#FROM docker.io/balenalib/armv7hf-debian as base
 FROM docker.io/balenalib/raspberrypi3-debian as base
 FROM docker.io/balenalib/raspberrypi3-debian
-#FROM docker.io/balenalib/armv7hf-debian
 
 COPY --from=base /bin/sh /bin/sh.real
 
