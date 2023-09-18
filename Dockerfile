@@ -35,3 +35,6 @@ CMD ["/lib/systemd/systemd"]
 RUN [ "cross-build-end" ]
 
 ENV DEBIAN_FRONTEND teletype
+
+# sudo podman container stop -a && sudo podman container rm -a && sudo podman system prune -a -f && sudo podman volume prune -f
+
