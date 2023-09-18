@@ -24,11 +24,11 @@ echo "************************************************************************"
 echo ""
 echo ""
 
-echo "buildah build -t localhost/debian-arm -f Dockerfile ."
+echo ""
 sudo buildah build -t localhost/debian-arm -f Dockerfile .
 echo ""
 echo ""
-echo "podman run --systemd=always"
+echo ""
 #sudo podman volume create moode
 sudo podman run --systemd=always -td --name=debian-arm -v /home/chou/moode/sys:/sys:rw -v /home/chou/moode/boot:/boot:rw --network=host --arch=arm --privileged --security-opt seccomp:unconfined \
 --entrypoint=/usr/bin/qemu-arm-static localhost/debian-arm -execve -0 /sbin/init /sbin/init 
@@ -53,13 +53,13 @@ echo "*********************************************"
 echo ""
 sleep 2
 
-echo "mv /bin/sh.real /bin/sh ; apt-get update -y ; sleep 3 ; apt-get upgrade -y"
+echo ""
 sudo podman exec -it debian-arm /usr/bin/qemu-arm-static -execve /bin/bash -c "mv /bin/sh.real /bin/sh ; apt-get update -y ; sleep 3 ; apt-get upgrade -y"
 
-echo "apt-get install -y curl sudo libxaw7 ssh libsndfile1 libsndfile1-dev cifs-utils"
+echo ""
 sudo podman exec -it debian-arm /usr/bin/qemu-arm-static -execve /bin/bash -c "apt-get install -y curl sudo libxaw7 ssh libsndfile1 libsndfile1-dev cifs-utils"
 
-echo "apt --fix-broken install -y"
+echo ""
 sudo podman exec -it debian-arm /usr/bin/qemu-arm-static -execve /bin/bash -c "apt --fix-broken install -y"
 echo ""
 echo ""
@@ -72,11 +72,11 @@ echo ""
 echo ""
 
 sleep 1
-echo "sudo sed -i 's/#Port 22/Port 2222/g' /etc/ssh/sshd_config"
+echo ""
 sudo podman exec -it debian-arm /usr/bin/qemu-arm-static -execve /bin/bash -c "sudo sed -i 's/#Port 22/Port 2222/g' /etc/ssh/sshd_config"
 echo ""
 echo ""
-echo "systemctl restart sshd"
+echo ""
 sudo podman exec -it debian-arm /usr/bin/qemu-arm-static -execve /bin/bash -c "systemctl restart sshd"
 echo ""
 echo ""
@@ -86,25 +86,25 @@ echo "*        install moode player               *"
 echo "*********************************************"
 echo ""
 sleep 1
-echo "curl -1sLf  'https://dl.cloudsmith.io/public/moodeaudio/m8y/setup.deb.sh' | sudo -E distro=raspbian codename=bullseye arch=armv7hf bash -"
+echo ""
 sudo podman exec -it debian-arm /usr/bin/qemu-arm-static -execve /bin/bash -c "curl -1sLf  'https://dl.cloudsmith.io/public/moodeaudio/m8y/setup.deb.sh' | sudo -E distro=raspbian codename=bullseye arch=armv7hf bash - "
 echo ""
 echo ""
 
-echo "apt-get update -y"
+echo ""
 sudo podman exec -it debian-arm /usr/bin/qemu-arm-static -execve /bin/bash -c "apt-get update -y"
 echo ""
-echo "apt-get install udisks nginx triggerhappy samba dnsmasq -y"
+echo ""
 sudo podman exec -it debian-arm /usr/bin/qemu-arm-static -execve /bin/bash -c "apt-get install udisks -y"
 sudo podman exec -it debian-arm /usr/bin/qemu-arm-static -execve /bin/bash -c "rm -rf /var/lib/dpkg/info/udisks2.postinst | dpkg --configure -a"
-
+read -p "Udisk finished Press any key to continue... " -n1 -s
 
 sudo podman exec -it debian-arm /usr/bin/qemu-arm-static -execve /bin/bash -c "apt-get install nginx triggerhappy samba dnsmasq -y"
 echo ""
 echo ""
 #read -p "Press any key to continue... " -n1 -s
 
-echo "apt-get install moode-player -y --fix-missing"
+echo ""
 sudo podman exec -it debian-arm /usr/bin/qemu-arm-static -execve /bin/bash -c "apt-get install moode-player -y --fix-missing"
 echo ""
 echo ""
@@ -112,17 +112,17 @@ echo ""
 echo "In general this long install return error, next move will try to fix this"
 echo ""
 echo ""
-echo "apt --fix-broken install -y"
+echo ""
 sudo podman exec -it debian-arm /usr/bin/qemu-arm-static -execve /bin/bash -c "apt --fix-broken install -y"
 sleep 1
 echo ""
 echo ""
-echo "apt-get install moode-player -y --fix-missing"
+echo ""
 sudo podman exec -it debian-arm /usr/bin/qemu-arm-static -execve /bin/bash -c "apt-get install moode-player -y --fix-missing"
 sleep 1
 echo ""
 echo ""
-echo "apt upgrade -y"
+echo ""
 sudo podman exec -it debian-arm /usr/bin/qemu-arm-static -execve /bin/bash -c "apt upgrade -y"
 #sleep 1
 echo ""
