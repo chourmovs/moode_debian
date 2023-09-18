@@ -95,7 +95,11 @@ echo "apt-get update -y"
 sudo podman exec -it debian-arm /usr/bin/qemu-arm-static -execve /bin/bash -c "apt-get update -y"
 echo ""
 echo "apt-get install udisks nginx triggerhappy samba dnsmasq -y"
-sudo podman exec -it debian-arm /usr/bin/qemu-arm-static -execve /bin/bash -c "apt-get install udisks nginx triggerhappy samba dnsmasq -y"
+sudo podman exec -it debian-arm /usr/bin/qemu-arm-static -execve /bin/bash -c "apt-get install udisks -y"
+sudo podman exec -it debian-arm /usr/bin/qemu-arm-static -execve /bin/bash -c "rm -rf /var/lib/dpkg/info/udisks2.postinst | dpkg --configure -a"
+
+
+sudo podman exec -it debian-arm /usr/bin/qemu-arm-static -execve /bin/bash -c "apt-get install nginx triggerhappy samba dnsmasq -y"
 echo ""
 echo ""
 #read -p "Press any key to continue... " -n1 -s
