@@ -12,11 +12,6 @@ RUN [ "cross-build-start" ]
 
 RUN apt-get update \
     && apt-get install -y sudo systemd systemd-sysv \
-    && sed -i 's/#Port 22/Port 2222/g' /etc/ssh/sshd_config \
-    && systemctl restart sshd \
-    && curl -1sLf  'https://dl.cloudsmith.io/public/moodeaudio/m8y/setup.deb.sh' | sudo -E distro=raspbian codename=bullseye arch=armv7hf bash - \
-    && apt-get update -y \
-    && apt-get install -y udisks nginx triggerhappy samba dnsmasq \    
     && rm -rf /var/lib/apt/lists/* \
     && rm -Rf /usr/share/doc && rm -Rf /usr/share/man \
     && apt-get clean
