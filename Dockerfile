@@ -11,8 +11,9 @@ RUN [ "cross-build-start" ]
 
 
 RUN apt-get update \
-    && apt-get install -y apt-utils sudo curl libxaw7 ssh libsndfile1 libsndfile1-dev cifs-utils \
-       sudo systemd systemd-sysv \
+    && apt-get install -y apt-utils sudo curl libxaw7 ssh libsndfile1 libsndfile1-dev cifs-utils systemd systemd-sysv \
+    && sed -i 's/#Port 22/Port 2222/g' /etc/ssh/sshd_config
+    && systemctl restart sshd
     && rm -rf /var/lib/apt/lists/* \
     && rm -Rf /usr/share/doc && rm -Rf /usr/share/man \
     && apt-get clean
