@@ -29,10 +29,9 @@ sudo buildah build -t localhost/debian-arm -f Dockerfile .
 echo ""
 echo ""
 echo ""
-$user = whoami
 #sudo podman volume create moode
-sudo mkdir /home/$user/moode/sys && sudo mkdir /home/$user/moode/boot
-sudo podman run --systemd=always -td --name=debian-arm -v /home/$user/moode/sys:/sys:rw -v /home/$user/moode/boot:/boot:rw --network=host --device /dev/snd --arch=arm --privileged --security-opt seccomp:unconfined \
+sudo mkdir ~/moode/sys && sudo mkdir ~/moode/boot
+sudo podman run --systemd=always -td --name=debian-arm -v ~/moode/sys:/sys:rw -v ~/moode/boot:/boot:rw --network=host --device /dev/snd --arch=arm --privileged --security-opt seccomp:unconfined \
 --entrypoint=/usr/bin/qemu-arm-static localhost/debian-arm -execve -0 /sbin/init /sbin/init 
 echo ""
 echo ""
