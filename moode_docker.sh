@@ -13,17 +13,19 @@ echo "****************************************************"
 echo "*               Download scripts                   *"
 echo "****************************************************"
 echo ""
-
+echo "dockerfile"
 curl -o Dockerfile  'https://raw.githubusercontent.com/chourmovs/moode_debian/qemu/Dockerfile'
+echo "initctl_faker"
 curl -o initctl_faker 'https://raw.githubusercontent.com/chourmovs/moode_debian/qemu/initctl_faker'
-
+echo ""
+echo ""
+echo "scripts downloaded"
+echo ""
 
 echo "************************************************************************"
 echo "*    create container with systemd in priviledged mode and start it    *"
 echo "************************************************************************"
 echo ""
-echo ""
-
 echo ""
 sudo buildah build -t localhost/debian-arm -f Dockerfile .
 echo ""
@@ -34,7 +36,7 @@ cd ~ && sudo mkdir -p moode/{sys,boot}
 sudo podman run --systemd=always -td --user=root --name=debian-arm --network=host --arch=arm --entrypoint=/sbin/init --log-level=debug --privileged --security-opt seccomp:unconfined \
 --entrypoint=/usr/bin/qemu-arm-static localhost/debian-arm -execve -0 /sbin/init /sbin/init 
 echo ""
-echo ""
+echo "podman container created...."
 
 
 #sudo podman generate systemd --new --files -n debian-arm
@@ -65,7 +67,7 @@ sudo podman exec -it debian-arm /usr/bin/qemu-arm-static -execve /bin/bash -c "c
 echo ""
 sudo podman exec -it debian-arm /usr/bin/qemu-arm-static -execve /bin/bash -c "apt --fix-broken install -y"
 echo ""
-echo ""
+echo "vital dependencies installed"
 # read -p "Press any key to continue... " -n1 -s
 
 echo ""
