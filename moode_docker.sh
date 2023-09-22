@@ -138,7 +138,7 @@ sudo podman container stop debian-arm
 echo "podman container start debian-moode"
 sudo podman container start debian-arm
 #systemctl start container-debian-moode
-sudo podman exec -it debian-arm /usr/bin/qemu-arm-static -execve /bin/bash -c "/sbin/init u"
+
 echo ""
 echo ""
 echo "***************************************"
@@ -155,7 +155,7 @@ sudo podman exec -it debian-arm /usr/bin/qemu-arm-static -execve /bin/bash -c "s
 sudo podman exec -it debian-arm /usr/bin/qemu-arm-static -execve /bin/bash -c "systemctl restart nginx"
 sudo podman exec -it debian-arm /usr/bin/qemu-arm-static -execve /bin/bash -c "systemctl restart mpd"
 
-
+sudo podman exec -it debian-arm /usr/bin/qemu-arm-static -execve /bin/bash -c "/sbin/init u"
 
 
 echo ""
