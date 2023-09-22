@@ -20,7 +20,7 @@ RUN chmod +x initctl_faker && rm -fr /sbin/initctl && ln -s /initctl_faker /sbin
 # Make sure systemd doesn't start agettys on tty[1-6].
 RUN rm -f /lib/systemd/system/multi-user.target.wants/getty.target
 
-VOLUME ["/sys/fs/cgroup" "/tmp", "/run"]
+VOLUME  /sys/fs/cgroup /tmp /run
 CMD ["/lib/systemd/systemd"]
 RUN printf '#!/bin/sh\nexit 0' > /usr/sbin/policy-rc.d
 
