@@ -97,7 +97,7 @@ echo ""
 echo ""
 sudo podman exec -it debian-arm /usr/bin/qemu-arm-static -execve /bin/bash -c "apt-get install udisks -y"
 sudo podman exec -it debian-arm /usr/bin/qemu-arm-static -execve /bin/bash -c "export DEBIAN_FRONTEND=noninteractive | rm -rf /var/lib/dpkg/info/udisks.postinst | yes "" | dpkg --configure -a |yes "" | unset DEBIAN_FRONTEND "
-read -p "Udisk finished Press any key to continue... " -n1 -s
+# read -p "Udisk finished Press any key to continue... " -n1 -s
 
 sudo podman exec -it debian-arm /usr/bin/qemu-arm-static -execve /bin/bash -c "apt-get install nginx triggerhappy samba dnsmasq -y"
 echo ""
