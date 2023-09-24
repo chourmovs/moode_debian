@@ -137,7 +137,7 @@ echo "****************************************"
 #systemctl stop container-debian-moode
 
 echo "podman container stop debian-moode"
-sudo podman container stop debian-arm
+sudo podman container stop debian-arm -t 40
 echo "podman container start debian-moode"
 sudo podman container start debian-arm
 #systemctl start container-debian-moode
@@ -167,10 +167,10 @@ echo "*    Access Moode web UI   *"
 echo "****************************"
 echo ""
 echo ""
-echo "Your device will now restart"
+# echo "Your device will now restart"
 echo ""
 echo ""
-echo "CTRL+CLIC on http://moode:8008"
+echo "CTRL+CLIC on http://localhost:8008"
 echo ""
 echo "Enjoy"
 # sudo reboot
