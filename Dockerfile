@@ -11,7 +11,7 @@ RUN [ "cross-build-start" ]
 
 
 RUN apt-get update \
-    && apt-get install -y sudo systemd systemd-sysv \
+    && apt-get install -y sudo systemd systemd-sysv apt-utils \
     && rm -rf /var/lib/apt/lists/* \
     && rm -Rf /usr/share/doc && rm -Rf /usr/share/man \
     && apt-get clean 
