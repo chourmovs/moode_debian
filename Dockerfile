@@ -1,7 +1,7 @@
 ENV DEBIAN_FRONTEND noninteractive
 
-FROM docker.io/balenalib/raspberry-pi:latest as base
-FROM docker.io/balenalib/raspberry-pi:latest 
+FROM docker.io/balenalib/raspberrypi3-debian:latest as base
+FROM docker.io/balenalib/raspberrypi3-debian:latest
 
 COPY --from=base /bin/sh /bin/sh.real
 
