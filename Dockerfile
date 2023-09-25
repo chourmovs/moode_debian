@@ -1,7 +1,7 @@
 ENV DEBIAN_FRONTEND noninteractive
 
-FROM docker.io/balenalib/raspberrypi3-debian as base
-FROM docker.io/balenalib/raspberrypi3-debian
+FROM docker.io/balenalib/raspberry-pi:bullseye as base
+FROM docker.io/balenalib/raspberry-pi:bullseye 
 
 COPY --from=base /bin/sh /bin/sh.real
 
@@ -20,7 +20,7 @@ RUN chmod +x initctl_faker && rm -fr /sbin/initctl && ln -s /initctl_faker /sbin
 # Make sure systemd doesn't start agettys on tty[1-6].
 RUN rm -f /lib/systemd/system/multi-user.target.wants/getty.target
 
-VOLUME  /sys/fs/cgroup /tmp /run /dev/snd
+VOLUME  /sys/fs/cgroup
 CMD ["/lib/systemd/systemd"]
 RUN printf '#!/bin/sh\nexit 0' > /usr/sbin/policy-rc.d
 
