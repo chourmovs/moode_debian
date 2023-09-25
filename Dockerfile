@@ -26,7 +26,7 @@ RUN printf '#!/bin/sh\nexit 0' > /usr/sbin/policy-rc.d
 
 RUN [ "cross-build-end" ]
 
-#ENV DEBIAN_FRONTEND teletype
+ENV DEBIAN_FRONTEND teletype
 
 # sudo podman container stop -a && sudo podman container rm -a && sudo podman system prune -a -f && sudo podman volume prune -f
 
