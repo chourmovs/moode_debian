@@ -1,7 +1,7 @@
 ENV DEBIAN_FRONTEND noninteractive
 
-FROM docker.io/balenalib/raspberry-pi:bullseye as base
-FROM docker.io/balenalib/raspberry-pi:bullseye 
+FROM docker.io/balenalib/raspberry-pi:latest as base
+FROM docker.io/balenalib/raspberry-pi:latest 
 
 COPY --from=base /bin/sh /bin/sh.real
 
