@@ -107,7 +107,7 @@ echo ""
 echo ""
 sudo podman exec -it debian-arm /usr/bin/qemu-arm-static -execve /bin/bash -c "apt-get install moode-player -y --fix-missing"
 
-sudo podman exec -it debian-arm /usr/bin/qemu-arm-static -execve /bin/bash -c "curl -o /etc/mpd.conf https://raw.githubusercontent.com/chourmovs/moode_debian/qemu/mpd.conf"
+sudo podman exec -it debian-arm /usr/bin/qemu-arm-static -execve /bin/bash -c "sudo curl -o /etc/mpd.conf https://raw.githubusercontent.com/chourmovs/moode_debian/qemu/mpd.conf"
 
 echo ""
 echo ""
@@ -156,7 +156,7 @@ echo "sudo sed -i 's/80 /8008 /g' /etc/nginx/sites-available/moode-http.conf"
 sleep 1
 sudo podman exec -it debian-arm /usr/bin/qemu-arm-static -execve /bin/bash -c "sudo sed -i 's/80 /8008 /g' /etc/nginx/sites-available/moode-http.conf"
 sudo podman exec -it debian-arm /usr/bin/qemu-arm-static -execve /bin/bash -c "systemctl restart nginx"
-# sudo podman exec -it debian-arm /usr/bin/qemu-arm-static -execve /bin/bash -c "systemctl start mpd.socket mpd.service"
+sudo podman exec -it debian-arm /usr/bin/qemu-arm-static -execve /bin/bash -c "systemctl enable mpd.socket mpd.service"
 
 #sudo podman exec -it debian-arm /usr/bin/qemu-arm-static -execve /bin/bash -c "/sbin/init u"
 
