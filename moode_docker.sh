@@ -33,7 +33,7 @@ echo ""
 echo ""
 #sudo podman volume create moode
 cd ~ && sudo mkdir -p moode/{sys,boot}
-sudo podman run --systemd=always -td --user=root --name=debian-arm --network=host --arch=arm --privileged --security-opt seccomp:unconfined \
+sudo podman run --systemd=always -td --name=debian-arm --network=host --arch=arm --privileged --security-opt seccomp:unconfined \
 --entrypoint=/usr/bin/qemu-arm-static localhost/debian-arm -execve -0 /sbin/init /sbin/init 
 echo ""
 echo "podman container created...."
@@ -60,10 +60,10 @@ echo ""
 sudo podman exec -it debian-arm /usr/bin/qemu-arm-static -execve /bin/bash -c "mv /bin/sh.real /bin/sh ; apt-get update -y ; sleep 3 ; apt-get upgrade -y"
 
 echo ""
-sudo podman exec -it debian-arm /usr/bin/qemu-arm-static -execve /bin/bash -c "apt-get install apt-utils -y curl sudo libxaw7 ssh libsndfile1 libsndfile1-dev cifs-utils wget alsa-utils"
+sudo podman exec -it debian-arm /usr/bin/qemu-arm-static -execve /bin/bash -c "apt install -y apt-utils curl sudo libxaw7 ssh libsndfile1 libsndfile1-dev cifs-utils wget alsa-utils"
 
-#sudo podman exec -it debian-arm /usr/bin/qemu-arm-static -execve /bin/bash -c "curl -o /etc/asound.conf  'https://raw.githubusercontent.com/chourmovs/moode_debian/qemu/asound.conf'"
-#sudo podman exec -it debian-arm /usr/bin/qemu-arm-static -execve /bin/bash -c "systemctl restart alsa-utils"
+sudo podman exec -it debian-arm /usr/bin/qemu-arm-static -execve /bin/bash -c "sudo curl -o /etc/asound.conf  'https://raw.githubusercontent.com/chourmovs/moode_debian/qemu/asound.conf'"
+sudo podman exec -it debian-arm /usr/bin/qemu-arm-static -execve /bin/bash -c "systemctl restart alsa-utils"
 
 echo ""
 sudo podman exec -it debian-arm /usr/bin/qemu-arm-static -execve /bin/bash -c "apt --fix-broken install -y"
@@ -87,7 +87,7 @@ echo "*********************************************"
 echo ""
 sleep 1
 echo ""
-sudo podman exec -it debian-arm /usr/bin/qemu-arm-static -execve /bin/bash -c "curl -1sLf  'https://dl.cloudsmith.io/public/moodeaudio/m8y/setup.deb.sh' | sudo -E distro=raspbian codename=bullseye arch=armv7hf bash - "
+sudo podman exec -it debian-arm /usr/bin/qemu-arm-static -execve /bin/bash -c "curl -1sLf  'https://dl.cloudsmith.io/public/moodeaudio/m8y/setup.deb.sh' | sudo -E distro=raspbian codename=bullseye arch=arm64 bash - "
 echo ""
 echo ""
 
